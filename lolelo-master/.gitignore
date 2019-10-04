@@ -1,0 +1,16 @@
+# Backups
+*~
+
+# Build results
+*/[Oo]bj/
+*/[Bb]in/
+
+# Binaries
+cmd/convert_runner/convert_runner
+cmd/parse/parse
+
+# Visual Studio Artifacts
+/Data*/.vs/*
+
+# Shared Libs
+/Data*/Libraries/*.dll

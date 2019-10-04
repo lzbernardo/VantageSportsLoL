@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package messages;
+
+// LolAdvancedStatsIngest describes a single match and summoner to ingest advanced stats for.
+message LolAdvancedStatsIngest {
+	string baseview_path = 1;
+	string baseview_type = 2;
+	int64 match_id = 3;
+	string platform_id = 4;
+	int64  summoner_id = 5;
+
+	// iff true, advanced stats will be generated whether they already exist or
+	// not.
+	bool override = 6;
+}
+
+// LolBasicStatsIngest describes a single match and summoner to ingest basic stats for.
+message LolBasicStatsIngest  {
+	string match_details_path = 1;
+	int64 match_id = 2;
+	string platform_id = 3;
+	int64 summoner_id = 4;
+
+	// iff true, basic stats will be generated whether they already exist or
+	// not.
+	bool override = 5;
+}
+
+// LolEloDataProcess describes a single match to extract a baseview file from elo data.
+message LolEloDataProcess {
+	string elo_data_path = 1;
+	string match_details_path = 2;
+	int64 match_id = 3;
+	string platform_id = 4;
+	repeated int64 summoner_ids = 5;
+
+	// iff true, baseview will be generated whether it already exists or not.
+	bool override = 6;
+}
+
+// LolMatchDownload describes matches to download and is used by the dispatcher runner to determine
+// what to do with downloaded matches.
+message LolMatchDownload {
+	string key = 1;
+	int64 match_id = 2;
+	string platform_id = 3;
+	repeated int64 observed_summoner_ids = 4;
+	string replay_server = 5;
+}
+
+// A request to translate a lol replay into a stats programatically.
+message LolReplayDataExtract {
+	int64 game_length_seconds = 1;
+	bool increased_playback_speed = 2;
+	string key = 3;
+	int64 match_id = 4;
+	string match_details_path = 5;
+	string match_version = 6;
+	string platform_id = 7;
+	string spectator_server = 8;
+	repeated int64 summoner_ids = 9;
+
+	// iff true, elogen will happen whether text file exists or not.
+	bool override = 10;
+	// sometimes we want to retry data generation after failures we believe are
+	// transient, and this number is incremented each time so we can stop
+	// retrying once we hit a certain threshold.
+	int64 retry_num = 11;
+}
+
+// LolSummonerCrawl describes a summoner to retrieve recent matches for.
+message LolSummonerCrawl {
+	int64 summoner_id = 1;
+	string platform_id = 2;
+	string history_type = 3;
+	// RFC 3339 timestamp string. only relevant if history_type == "ranked_history"
+	string since = 4;
+}
+
+// LolVideo describes a single match/summoner video to generate.
+message LolVideo {
+	int64 match_id = 1;
+	string platform_id = 2;
+	string key = 3;
+	int64 champ_focus = 4;
+	int64 game_length_seconds = 5;
+	string spectator_server = 6;
+	string match_version = 7;
+	int64 target_summoner_id = 8;
+	string match_details_path = 9;
+}

@@ -1,0 +1,10 @@
+box: golang:latest
+build:
+  steps:
+    - setup-go-workspace
+    - script:
+        name: Build
+        code: go build -v ./...
+    - script:
+        name: Test (verbose on failure)
+        code: go test -cover ./... || go test -v ./...

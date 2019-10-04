@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package payment;
+
+// Payment manages accepting payments from customers and updating
+// Vantage Point Balances depending on the product purchased
+
+service Payment {
+  rpc SaveCustomer(CustomerRequest) returns(SimpleResponse) {}
+  rpc Purchase(PurchaseRequest) returns(SimpleResponse) {}
+  rpc Subscribe(SubscriptionRequest) returns(SimpleResponse) {}
+  rpc Unsubscribe(SubscriptionRequest) returns(SimpleResponse) {}
+  rpc SavePaymentSource(PaymentSourceRequest) returns(PaymentSource) {}
+  rpc ListPaymentSources(PaymentSourceFilter) returns(PaymentSourcesList) {}
+  rpc ListProducts(ProductFilter) returns (ProductsList) {}
+  rpc ListSubscriptions(SubscriptionsListRequest) returns (SubscriptionsList) {}
+  rpc HandleWebhook(StripeEvent) returns(SimpleResponse) {}
+}
+
+message SimpleResponse{}
+
+message CustomerRequest {
+  string user_id = 1;
+  string coupon_id = 2;
+}
+
+message PurchaseRequest {
+  string user_id = 1;
+  string sku_id = 2;  // the sku is what is used to associate the price to the product in stripe
+}
+
+message SubscriptionRequest {
+  string user_id = 1;
+  string plan = 2;
+  bool at_period_end = 3; // when set to true on a cancellation it wont take place until the period end for the subscription
+  string coupon_id = 4;
+}
+
+message PaymentSourceRequest {
+  // token obtained from Stripe.js that allows stripe to look up payment info when sent to api, https://stripe.com/docs/api#tokens
+  string stripe_token = 1;
+  string email = 2;
+  string user_id = 3;
+}
+
+message PaymentSourcesList{
+  repeated PaymentSource payment_sources = 1;
+}
+
+// PaymentSource describes the payment source used to make a Charge.
+message PaymentSource {
+  string id = 1;
+  Card card = 2;
+}
+
+// Card gives the information about the credit card on file we want to display
+// to the user
+message Card {
+  string id = 1;
+  int64 exp_month = 2;
+  int64 exp_year = 3;
+  string last_four = 4;
+  string brand = 5;
+  string zip = 6;
+}
+
+message ProductsList {
+  repeated Product products = 1;
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  int64 price = 3;
+  string sku_id = 4;  // the sku is what is used to associate the price to the product in stripe
+}
+
+message PaymentSourceFilter {
+  string user_id = 1;
+}
+
+message ProductFilter {
+  string product_id = 1;
+}
+
+// StripeEvent is the event sent by the Stripe webhooks
+message StripeEvent {
+  string id = 1;
+  string type = 2;
+  string user_id = 3;
+}
+
+message SubscriptionsListRequest {
+  string user_id = 1;
+}
+
+message SubscriptionsList {
+  repeated Subscription subscriptions = 1;
+}
+
+message Subscription {
+  string plan = 1;
+  string name = 2;
+  int64 period_end = 3;
+}

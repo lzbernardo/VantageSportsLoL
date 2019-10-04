@@ -1,0 +1,5 @@
+#!/bin/bash
+wget -O /home/ubuntu/coordinator_server https://www.dropbox.com/s/t2uel24qr6i54i7/coordinator_server?dl=1
+chmod a+x /home/ubuntu/coordinator_server
+su ubuntu -c "/home/ubuntu/coordinator_server >& /home/ubuntu/server_out&"
+

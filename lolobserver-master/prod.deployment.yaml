@@ -1,0 +1,62 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-observer-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        api: v1
+        app: lol-observer
+        env: prod
+    spec:
+      containers:
+      - env:
+        - name: ADDR_LOL_USERS
+          value: lol-users-server-v1.default.svc.cluster.local:443
+        - name: API_KEY
+          value: file_trim:/etc/creds/riot-api-key
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-vs-main
+        - name: GOOG_PROJECT_ID
+          value: vs-main
+        - name: MINIMUM_VANTAGE_POINTS
+          value: "200"
+        - name: OUTPUT_MATCHES_PATH
+          value: gs://vsp-esports/lol/replay/matches
+        - name: REPLAY_SERVER
+          value: lolstreamer.vantagesports.gg:8080
+        - name: RIOT_REQ_PER_10SEC
+          value: "300"
+        - name: SIGN_KEY_INTERNAL
+          value: file_trim:/etc/creds/internal-sign-key
+        - name: TLS_CERT
+          value: /etc/ssl-certs/crt-pem
+        - name: TOPIC_LOL_MATCH_DOWNLOAD
+          value: lol_match_download
+        image: gcr.io/vs-containers/lol-observer
+        imagePullPolicy: Always
+        name: lol-observer-v1
+        resources:
+          requests:
+            cpu: "50m"
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-prod
+          readOnly: true
+        - mountPath: /etc/ssl-certs
+          name: ssl-certs
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-prod
+        secret:
+          secretName: creds-prod
+      - name: ssl-certs
+        secret:
+          secretName: sslcerts-vscom

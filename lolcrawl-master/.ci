@@ -1,0 +1,8 @@
+{
+    "_comment": "tells container_server to build the vs-fakeriotserver image from Dockerfile.",
+    "build": {
+        "cmd/fakeriot/Dockerfile": "gcr.io/vs-containers/vs-fakeriotserver",
+	      "cmd/crawl/Dockerfile": "gcr.io/vs-containers/vs-lolmatchcrawler",
+        "cmd/summonerserver/Dockerfile": "gcr.io/vs-containers/vs-summonerserver"
+    }
+}

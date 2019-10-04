@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-dispatch-runner-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-dispatch-runner
+        env: staging
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: ADDR_LOL_USERS
+          value: lol-users-server-v1.default.svc.cluster.local:443 
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-staging1
+        - name: GOOG_PROJECT_ID
+          value: vs-staging1
+        - name: MATCH_DATA_DIR
+          value: gs://vss-esports/lol/crawl/matches
+        - name: MATCH_COST
+          value: "200"
+        - name: SIGN_KEY_INTERNAL
+          value: file_trim:/etc/creds/internal-sign-key
+        - name: SUB_LOL_MATCH_DISPATCH
+          value: lol_match_dispatch
+        - name: TOPIC_LOL_ELOGEN
+          value: lol_elogen
+        - name: TOPIC_LOL_BASIC_STATS
+          value: lol_basic_stats_ingest
+        - name: TLS_CERT
+          value: /etc/ssl-certs/crt-pem
+        image: gcr.io/vs-containers/lol-dispatcher:change_me
+        imagePullPolicy: Always
+        name: lol-dispatch-runner-v1
+        resources:
+          requests:
+            cpu: 40m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-staging
+          readOnly: true
+        - mountPath: /etc/ssl-certs
+          name: ssl-certs
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-staging
+        secret:
+          secretName: creds-staging
+      - name: ssl-certs
+        secret:
+          secretName: sslcerts-vscom

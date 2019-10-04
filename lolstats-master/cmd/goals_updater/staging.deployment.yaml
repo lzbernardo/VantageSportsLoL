@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-goals-updater-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        api: v1
+        app: lol-goals-updater
+        env: staging
+    spec:
+      containers:
+      - env:
+        - name: GOOG_PROJECT_ID
+          value: vs-staging1
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-staging1
+        - name: INPUT_QUEUE_ID
+          value: lol_goals_update
+        - name: MATCH_STATS_STORE_LOCATION
+          value: gs://vss-esports/lol/baseview
+
+        image: gcr.io/vs-containers/lol-goals-updater
+        imagePullPolicy: Always
+        name: lol-goals-updater-v1
+        resources:
+          requests:
+            cpu: 50m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-staging
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-staging
+        secret:
+          secretName: creds-staging

@@ -1,0 +1,20 @@
+crawler:
+  build: ../../
+  dockerfile: ./cmd/summoner_crawl/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolcrawl:/go/src/github.com/VantageSports/lolcrawl
+  working_dir: /go/src/github.com/VantageSports/lolcrawl
+  environment:
+    - RIOT_API_KEY=string:123__changeme__123
+    - GOOG_CREDS_JSON=_fake_
+    - GOOG_PROJECT_ID=vs-dev
+    - INPUT_QUEUE_ID=lol_summoner_crawl
+    - MATCH_DOWNLOAD_QUEUE_ID=lol_match_download
+    - RECENT_GAMES_STORE_LOCATION=gs://vsd-esports/lol/crawl/matches
+    - REQ_PER_10SEC=10
+
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/summoner_crawl && /go/bin/summoner_crawl'
+
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'Godep*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

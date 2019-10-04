@@ -1,0 +1,21 @@
+matchdownload:
+  build: ../../
+  dockerfile: ./cmd/match_download/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolcrawl:/go/src/github.com/VantageSports/lolcrawl
+  working_dir: /go/src/github.com/VantageSports/lolcrawl
+  environment:
+    - RIOT_API_KEY=string:__changeme__
+    - GOOG_CREDS_JSON=_fake_
+    - GOOG_PROJECT_ID=vs-dev
+    - INPUT_SUB_ID=lol_match_download
+    - OUTPUT_TOPIC_ID=lol_match_dispatch
+    - REQ_PER_10SEC=10
+    - MATCH_STORE_LOCATION=gs://vsd-esports/lol/crawl/matches
+    - OBSERVER_STORE_LOCATION=gs://vsd-esports/lol/replay/matches
+    - RECENT_GAMES_STORE_LOCATION=gs://vsd-esports/lol/crawl/matches
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/match_download && /go/bin/match_download'
+
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'vendor*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

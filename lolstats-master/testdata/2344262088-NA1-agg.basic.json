@@ -1,0 +1,529 @@
+{
+  "summoner_id": 0,
+  "platform_id": "NA1",
+  "match_id": 2344262088,
+  "match_creation": 1478934818941,
+  "match_duration": 1857,
+  "last_updated": "2017-02-01T11:06:56.504146692-08:00",
+  "team_summaries": {
+    "team1": {
+      "kills": 41,
+      "deaths": 21,
+      "assists": 55,
+      "towers": 9,
+      "barons": 1,
+      "dragons": 4
+    },
+    "team2": {
+      "kills": 20,
+      "deaths": 41,
+      "assists": 27,
+      "towers": 2
+    },
+    "participants": [
+      {
+        "champ_id": 11,
+        "champ_level": 16,
+        "spell1_id": 4,
+        "spell2_id": 11,
+        "masteries": {
+          "6111": 5,
+          "6121": 1,
+          "6131": 5,
+          "6141": 1,
+          "6151": 5,
+          "6162": 1,
+          "6211": 5,
+          "6223": 1,
+          "6312": 5,
+          "6323": 1
+        },
+        "kills": 13,
+        "deaths": 6,
+        "assists": 8,
+        "gold": 14041,
+        "total_damage_dealt_to_champions": 22777,
+        "wards_placed": 13,
+        "ward_kills": 3,
+        "item0": 1419,
+        "item1": 3153,
+        "item2": 3046,
+        "item3": 3111,
+        "item4": 3052,
+        "item5": 1028,
+        "item6": 3363,
+        "role": "jng",
+        "summoner_id": 26210824,
+        "summoner_name": "ll Akagami ll"
+      },
+      {
+        "champ_id": 45,
+        "champ_level": 15,
+        "spell1_id": 4,
+        "spell2_id": 14,
+        "masteries": {
+          "6211": 5,
+          "6221": 1,
+          "6232": 5,
+          "6241": 1,
+          "6311": 5,
+          "6322": 1,
+          "6332": 5,
+          "6342": 1,
+          "6352": 5,
+          "6362": 1
+        },
+        "kills": 13,
+        "deaths": 4,
+        "assists": 10,
+        "gold": 14041,
+        "total_damage_dealt_to_champions": 21179,
+        "wards_placed": 20,
+        "ward_kills": 5,
+        "item0": 2055,
+        "item1": 1058,
+        "item2": 2301,
+        "item3": 3135,
+        "item4": 3117,
+        "item5": 3165,
+        "item6": 3364,
+        "role": "sup",
+        "summoner_id": 53119,
+        "summoner_name": "SilentJ"
+      },
+      {
+        "champ_id": 4,
+        "champ_level": 17,
+        "spell1_id": 3,
+        "spell2_id": 4,
+        "masteries": {
+          "6114": 5,
+          "6122": 1,
+          "6134": 5,
+          "6143": 1,
+          "6312": 5,
+          "6322": 1,
+          "6331": 5,
+          "6343": 1,
+          "6351": 5,
+          "6362": 1
+        },
+        "kills": 7,
+        "deaths": 4,
+        "assists": 11,
+        "gold": 13758,
+        "total_damage_dealt_to_champions": 19382,
+        "wards_placed": 11,
+        "ward_kills": 4,
+        "item0": 1026,
+        "item1": 3157,
+        "item2": 3100,
+        "item3": 3027,
+        "item4": 1052,
+        "item5": 3158,
+        "item6": 3363,
+        "role": "mid",
+        "summoner_id": 23485580,
+        "summoner_name": "bcccccccccc"
+      },
+      {
+        "champ_id": 57,
+        "champ_level": 16,
+        "spell1_id": 4,
+        "spell2_id": 12,
+        "masteries": {
+          "6114": 5,
+          "6122": 1,
+          "6134": 5,
+          "6142": 1,
+          "6211": 5,
+          "6223": 1,
+          "6231": 5,
+          "6241": 1,
+          "6251": 5,
+          "6261": 1
+        },
+        "kills": 3,
+        "deaths": 3,
+        "assists": 12,
+        "gold": 11799,
+        "total_damage_dealt_to_champions": 15739,
+        "wards_placed": 9,
+        "ward_kills": 1,
+        "item0": 1056,
+        "item1": 3027,
+        "item2": 3111,
+        "item4": 3742,
+        "item5": 3110,
+        "item6": 3340,
+        "role": "top",
+        "summoner_id": 26337245,
+        "summoner_name": "Lumix3"
+      },
+      {
+        "champ_id": 81,
+        "champ_level": 16,
+        "spell1_id": 7,
+        "spell2_id": 4,
+        "masteries": {
+          "6111": 5,
+          "6121": 1,
+          "6131": 5,
+          "6142": 1,
+          "6312": 5,
+          "6321": 1,
+          "6332": 5,
+          "6343": 1,
+          "6351": 5,
+          "6362": 1
+        },
+        "kills": 5,
+        "deaths": 4,
+        "assists": 14,
+        "gold": 13554,
+        "total_damage_dealt_to_champions": 16622,
+        "wards_placed": 9,
+        "ward_kills": 3,
+        "item0": 3078,
+        "item1": 3042,
+        "item2": 3036,
+        "item3": 3158,
+        "item6": 3363,
+        "role": "adc",
+        "summoner_id": 45087790,
+        "summoner_name": "yS Luminescent"
+      },
+      {
+        "champ_id": 64,
+        "champ_level": 14,
+        "spell1_id": 11,
+        "spell2_id": 4,
+        "masteries": {
+          "6114": 5,
+          "6121": 1,
+          "6131": 1,
+          "6134": 4,
+          "6143": 1,
+          "6312": 5,
+          "6321": 1,
+          "6331": 5,
+          "6341": 1,
+          "6351": 5,
+          "6362": 1
+        },
+        "kills": 5,
+        "deaths": 10,
+        "assists": 4,
+        "gold": 9830,
+        "total_damage_dealt_to_champions": 11020,
+        "wards_placed": 17,
+        "ward_kills": 2,
+        "item0": 1412,
+        "item1": 2045,
+        "item2": 3742,
+        "item3": 3009,
+        "item4": 1029,
+        "item5": 1057,
+        "item6": 3340,
+        "role": "jng",
+        "summoner_id": 23012962,
+        "summoner_name": "Fking Easy"
+      },
+      {
+        "champ_id": 75,
+        "champ_level": 15,
+        "spell1_id": 12,
+        "spell2_id": 4,
+        "masteries": {
+          "6211": 5,
+          "6223": 1,
+          "6231": 5,
+          "6241": 1,
+          "6312": 5,
+          "6323": 1,
+          "6331": 5,
+          "6343": 1,
+          "6351": 5,
+          "6361": 1
+        },
+        "kills": 4,
+        "deaths": 7,
+        "assists": 4,
+        "gold": 10895,
+        "total_damage_dealt_to_champions": 19214,
+        "wards_placed": 10,
+        "item0": 3512,
+        "item1": 3078,
+        "item3": 1011,
+        "item4": 1031,
+        "item5": 3111,
+        "item6": 3340,
+        "role": "top",
+        "summoner_id": 18725,
+        "summoner_name": "Plawg"
+      },
+      {
+        "champ_id": 91,
+        "champ_level": 14,
+        "spell1_id": 6,
+        "spell2_id": 4,
+        "masteries": {
+          "6114": 5,
+          "6121": 1,
+          "6134": 5,
+          "6142": 1,
+          "6312": 5,
+          "6323": 1,
+          "6331": 5,
+          "6343": 1,
+          "6351": 5,
+          "6362": 1
+        },
+        "kills": 6,
+        "deaths": 12,
+        "assists": 7,
+        "gold": 10988,
+        "total_damage_dealt_to_champions": 21596,
+        "wards_placed": 7,
+        "ward_kills": 4,
+        "item0": 3142,
+        "item1": 3140,
+        "item2": 3158,
+        "item3": 3155,
+        "item4": 3147,
+        "item5": 3133,
+        "item6": 3340,
+        "role": "mid",
+        "summoner_id": 47697543,
+        "summoner_name": "Distorter"
+      },
+      {
+        "champ_id": 117,
+        "champ_level": 13,
+        "spell1_id": 4,
+        "spell2_id": 3,
+        "masteries": {
+          "6114": 5,
+          "6123": 1,
+          "6134": 5,
+          "6142": 1,
+          "6311": 5,
+          "6322": 1,
+          "6332": 5,
+          "6341": 1,
+          "6352": 5,
+          "6362": 1
+        },
+        "kills": 1,
+        "deaths": 4,
+        "assists": 7,
+        "gold": 7799,
+        "total_damage_dealt_to_champions": 6715,
+        "wards_placed": 16,
+        "ward_kills": 7,
+        "item0": 2301,
+        "item1": 3222,
+        "item2": 3009,
+        "item3": 2055,
+        "item4": 3105,
+        "item6": 3364,
+        "role": "sup",
+        "summoner_id": 23617053,
+        "summoner_name": "Delete0"
+      },
+      {
+        "champ_id": 222,
+        "champ_level": 15,
+        "spell1_id": 4,
+        "spell2_id": 7,
+        "masteries": {
+          "6111": 5,
+          "6122": 1,
+          "6134": 5,
+          "6143": 1,
+          "6151": 5,
+          "6162": 1,
+          "6211": 5,
+          "6222": 1,
+          "6232": 5,
+          "6243": 1
+        },
+        "kills": 4,
+        "deaths": 8,
+        "assists": 5,
+        "gold": 11964,
+        "total_damage_dealt_to_champions": 15614,
+        "wards_placed": 8,
+        "ward_kills": 1,
+        "item0": 1055,
+        "item1": 3508,
+        "item2": 3031,
+        "item3": 3085,
+        "item4": 3006,
+        "item6": 3340,
+        "role": "adc",
+        "summoner_id": 35311154,
+        "summoner_name": "CHLRainPaul"
+      }
+    ]
+  },
+  "champion_id": 0,
+  "lane": "",
+  "role": "",
+  "opponent_champion_id": 0,
+  "queue_type": "RANKED_FLEX_SR",
+  "match_version": "6.22.165.3566",
+  "tier": "",
+  "division": "",
+  "champion_index": 0,
+  "won": true,
+  "kills": 8,
+  "deaths": 4,
+  "assists": 11,
+  "cs_per_minute_zero_to_ten": 3.8600000000000003,
+  "cs_per_minute_diff_zero_to_ten": -0.24000000000000007,
+  "neutral_minions_killed_per_minute": 0.7948303715670437,
+  "neutral_minions_killed_enemy_jungle_per_minute": 0.4588045234248789,
+  "gold_zero_to_ten": 268.9,
+  "gold_diff_zero_to_ten": 33.42000000000002,
+  "gold_ten_to_twenty": 435.62000000000006,
+  "gold_diff_ten_to_twenty": 82.32000000000001,
+  "gold_twenty_to_thirty": 514.98,
+  "gold_diff_twenty_to_thirty": 156.42,
+  "level_6_seconds": 446.4334,
+  "level_6_diff_seconds": 25.575,
+  "wards_placed": 12,
+  "wards_placed_per_minute": 0.40064620355411956,
+  "wards_killed_per_minute": 0.10339256865912763,
+  "total_damage_dealt": 129900,
+  "total_damage_dealt_per_minute": 4197.105008077544,
+  "total_damage_dealt_to_champions": 19140,
+  "total_damage_dealt_to_champions_per_minute": 618.4103392568659,
+  "total_damage_taken": 22325,
+  "total_damage_taken_per_minute": 721.3311793214863,
+  "total_heal": 6170,
+  "total_heal_per_minute": 199.35379644588045,
+  "dead_percent_last_5": [
+    {
+      "time": 60,
+      "percent": 0
+    },
+    {
+      "time": 120,
+      "percent": 0
+    },
+    {
+      "time": 180,
+      "percent": 0
+    },
+    {
+      "time": 240,
+      "percent": 1
+    },
+    {
+      "time": 300,
+      "percent": 1.224600000000002
+    },
+    {
+      "time": 360,
+      "percent": 2
+    },
+    {
+      "time": 420,
+      "percent": 3.3333333333333335
+    },
+    {
+      "time": 480,
+      "percent": 3.3333333333333335
+    },
+    {
+      "time": 540,
+      "percent": 2.3333333333333335
+    },
+    {
+      "time": 600,
+      "percent": 2.1087333333333316
+    },
+    {
+      "time": 660,
+      "percent": 1.3333333333333335
+    },
+    {
+      "time": 720,
+      "percent": 0
+    },
+    {
+      "time": 780,
+      "percent": 2
+    },
+    {
+      "time": 840,
+      "percent": 2
+    },
+    {
+      "time": 900,
+      "percent": 2
+    },
+    {
+      "time": 960,
+      "percent": 3.5153999999999996
+    },
+    {
+      "time": 1020,
+      "percent": 5.057183916666668
+    },
+    {
+      "time": 1080,
+      "percent": 5.733532833333348
+    },
+    {
+      "time": 1140,
+      "percent": 12.173206145833328
+    },
+    {
+      "time": 1200,
+      "percent": 19.09457625000001
+    },
+    {
+      "time": 1260,
+      "percent": 17.57917625000001
+    },
+    {
+      "time": 1320,
+      "percent": 18.828056333333343
+    },
+    {
+      "time": 1380,
+      "percent": 18.55257408333332
+    },
+    {
+      "time": 1440,
+      "percent": 12.350780041666683
+    },
+    {
+      "time": 1500,
+      "percent": 8.455006895833336
+    },
+    {
+      "time": 1560,
+      "percent": 16.72354022916667
+    },
+    {
+      "time": 1620,
+      "percent": 18.135958083333342
+    },
+    {
+      "time": 1680,
+      "percent": 18.755867750000014
+    },
+    {
+      "time": 1740,
+      "percent": 18.517988479166675
+    },
+    {
+      "time": 1800,
+      "percent": 15.49239152083334
+    }
+  ],
+  "average_death_time_percentage": 7.721063515972226
+}

@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-replay-server-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        api: v1
+        app: lol-replay-server
+        env: prod
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: :8080
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-vs-main
+        - name: GOOG_PROJECT_ID
+          value: vs-main
+        - name: GCS_REPLAY_PREFIX
+          value: gs://vsp-esports/lol/replay/matches
+        image: gcr.io/vs-containers/lol-replay-server
+        imagePullPolicy: Always
+        name: lol-replay-server-v1
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 60m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-prod
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-prod
+        secret:
+          secretName: creds-prod

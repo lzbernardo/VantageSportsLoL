@@ -1,0 +1,10 @@
+# Backups
+*~
+
+# Binaries
+cmd/advanced_stats_ingester/advanced_stats_ingester
+cmd/basic_stats_ingester/basic_stats_ingester
+cmd/champ_metadata/champ_metadata
+cmd/ingest_cli/ingest_cli
+cmd/lolstatsserver/lolstatsserver
+cmd/lolstatsserver/lolstatstestclient/lolstatstestclient

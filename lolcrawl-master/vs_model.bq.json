@@ -1,0 +1,96 @@
+[
+    {
+        "name": "bans",
+        "type": "record",
+        "mode": "repeated",
+        "fields": [
+            {
+                "name": "champion_id",
+                "type": "integer"
+            },
+            {
+                "name": "pick_turn",
+                "type": "integer"
+            },
+            {
+                "name": "team_id",
+                "type": "integer"
+            }
+        ]
+    },
+    {
+        "name": "duration",
+        "type": "integer"
+    },
+    {
+        "name": "map_id",
+        "type": "integer"
+    },
+    {
+        "name": "match_id",
+        "type": "integer"
+    },
+    {
+        "name": "match_version",
+        "type": "string"
+    },
+    {
+        "name": "match_mode",
+        "type": "string"
+    },
+    {
+        "name": "platform_id",
+        "type": "string"
+    },
+    {
+        "name": "players",
+        "type": "record",
+        "mode": "repeated",
+        "fields": [
+            {
+                "name": "champion_id",
+                "type": "integer"
+            },
+            {
+                "name": "position",
+                "type": "string"
+            },
+            {
+                "name": "summoner_id",
+                "type": "integer"
+            },
+            {
+                "name": "summoner_name",
+                "type": "string"
+            },
+            {
+                "name": "team_id",
+                "type": "integer"
+            },
+            {
+                "name": "winner",
+                "type": "boolean"
+            }
+        ]
+    },
+    {
+        "name": "queue_type",
+        "type": "string"
+    },
+    {
+        "name": "region",
+        "type": "string"
+    },
+    {
+        "name": "season",
+        "type": "string"
+    },
+    {
+        "name": "date",
+        "type": "timestamp"
+    },
+    {
+        "name": "match_type",
+        "type": "string"
+    }
+]

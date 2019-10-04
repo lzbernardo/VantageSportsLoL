@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-queue-server-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-queue-server
+        env: prod
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: ADDR_LOLUSERS
+          value: lol-users-server-v1.default.svc.cluster.local:443
+        - name: ADDR_PAYMENT
+          value: payment-server-v1.default.svc.cluster.local:443
+        - name: ADDR_RIOT_PROXY
+          value: lol-riotproxy-server-v1.default.svc.cluster.local:443
+        - name: ADDR_USERS_V2
+          value: users-server-v2.default.svc.cluster.local:443
+        - name: INSECURE_GRPC
+          value: "true"
+        - name: PORT
+          value: :443
+        - name: TLS_CERT
+          value: /etc/ssl-certs/crt-pem
+        - name: TLS_KEY
+          value: /etc/ssl-certs/key-pem
+        image: gcr.io/vs-containers/lol-queue-server:20161220
+        imagePullPolicy: Always
+        name: lol-queue-server-v1
+        ports:
+        - containerPort: 443
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 40m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/ssl-certs
+          name: ssl-certs
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: ssl-certs
+        secret:
+          secretName: sslcerts-vscom

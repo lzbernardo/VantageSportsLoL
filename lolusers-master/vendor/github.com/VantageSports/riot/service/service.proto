@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+import "riot.proto";
+
+package service;
+
+// Riot is a proxy to the riot API. Note that we don't follow the protobuf
+// case-conventions here because we're specifically mimicking the riot api
+// structures.
+service Riot {
+	rpc LeagueBySummoner(SummonerIDRequest) returns (LeaguesResponse) {}
+	rpc LeagueEntryBySummoner(SummonerIDRequest) returns (LeaguesResponse) {}
+
+	rpc SummonersByName(SummonerNameRequest) returns (Summoners) {}
+	rpc SummonersById(SummonerIDRequest) returns (Summoners) {}
+
+	rpc Champions(RegionRequest) returns (riot.ChampMeta) {}
+	rpc SummonerSpells(RegionRequest) returns (riot.SummonerSpellList) {}
+	rpc Masteries(SummonerIDRequest) returns (MasteriesResponse) {}
+}
+
+message RegionRequest {
+	string region = 1;
+}
+
+message SummonerIDRequest {
+	string region = 1;
+	repeated int64 ids = 2;
+}
+
+message SummonerNameRequest {
+	string region = 1;
+	repeated string names = 2;
+}
+
+message Summoners {
+	repeated riot.Summoner summoners = 1;
+}
+
+message MasteriesResponse {
+	repeated NamedMasteries named_masteries = 1;
+}
+
+message NamedMasteries {
+	string name = 1;
+	repeated riot.MasteryPage mastery_pages = 2;
+}
+
+message LeaguesResponse {
+	repeated NamedLeagues named_leagues = 1;
+}
+
+
+message NamedLeagues {
+	string name = 1;
+	repeated riot.League leagues = 2;
+}

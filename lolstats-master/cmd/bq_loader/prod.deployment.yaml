@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-bq-importer-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-bq-importer
+        env: prod
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: BIG_QUERY_DATASET
+          value: lol
+        - name: BIG_QUERY_TABLE_BASIC
+          value: lolstats_basic
+        - name: BIG_QUERY_TABLE_ADVANCED
+          value: lolstats_advanced
+        - name: LOAD_INTERVAL_MINUTES
+          value: "20"
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-vs-main
+        - name: GOOG_PROJECT_ID
+          value: vs-main
+        - name: JSON_DIR_BASIC
+          value: gs://vsp-esports/lol/bqimport
+        - name: JSON_DIR_ADVANCED
+          value: gs://vsp-esports/lol/bqimport
+        image: gcr.io/vs-containers/lol-bq-importer:change_me
+        imagePullPolicy: Always
+        name: lol-bq-importer-v1
+        resources:
+          requests:
+            cpu: 40m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-prod
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-prod
+        secret:
+          secretName: creds-prod

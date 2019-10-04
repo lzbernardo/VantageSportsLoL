@@ -1,0 +1,7 @@
+# Backups
+*~
+
+# Binaries
+cmd/integration/integration
+cmd/userserver/userserver
+cmd/seed/seed

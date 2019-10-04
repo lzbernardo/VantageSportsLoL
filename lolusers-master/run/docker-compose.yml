@@ -1,0 +1,37 @@
+gcd:
+  container_name: lolusers_gcd
+  image: vantagesports/gcd-emulator:grpc
+  ports:
+    - "10001:8080"
+
+loluserserver:
+  build: ../
+  dockerfile: ./run/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolusers:/go/src/github.com/VantageSports/lolusers
+  ports:
+    # grpc port
+    - "50001:50001"
+    #debug http port
+    - "9001:80"
+  links:
+    - "gcd"
+  working_dir: /go/src/github.com/VantageSports/lolusers
+  environment:
+  # set DOCKER_GUEST as envirnoment variable on the command line
+  # on OSX, it's likely the address of your docker vm (e.g. 192.168.99.100)
+  # on linux, it's the localhost address of docker0 (e.g. 172.17.0.1)
+    - DATASTORE_EMULATOR_HOST=lolusers_gcd:8080
+    - GOOG_PROJECT_ID=localdev
+    - SIGN_KEY_INTERNAL=string:_fake_internal_key_
+    - GOOG_CREDS_JSON=_fake_
+    - ADDR_USERS_V2=${DOCKER_GUEST}:50000
+    - ADDR_RIOT_PROXY=${DOCKER_GUEST}:50020
+    - ADDR_TASKS_EMAIL=${DOCKER_GUEST}:50021
+    - PUBSUB_OUTPUT_TOPIC=lol_summoner_crawl
+    - LOL_ACTIVE_GROUP_ID=6192449487634432
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'godep go install ./cmd/loluserserver && /go/bin/loluserserver'
+
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'Godep*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

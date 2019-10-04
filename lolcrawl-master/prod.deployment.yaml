@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-crawler-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-crawler
+        env: prod
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: API_KEY_PATH
+          value: /etc/creds/riot-api-key
+        - name: BQ_DATASET
+          value: lol
+        - name: BQ_TABLE
+          value: match_crawl
+        - name: CRAWL_DIR
+          value: gs://vsp-esports/lol/crawl
+        - name: CRAWL_INTERVAL_MINS
+          value: "720"
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-vs-main
+        - name: GOOG_PROJECT_ID
+          value: vs-main
+        - name: MATCH_LOOKBACK_DAYS
+          value: "60"
+        - name: REQ_PER_10SEC
+          value: "300"
+        image: gcr.io/vs-containers/lol-match-crawler:add_me
+        imagePullPolicy: Always
+        name: lol-crawler-v1
+        resources:
+          requests:
+            cpu: "50m"
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-prod
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-prod
+        secret:
+          secretName: creds-prod

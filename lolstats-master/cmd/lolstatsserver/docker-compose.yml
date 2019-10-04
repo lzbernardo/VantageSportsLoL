@@ -1,0 +1,30 @@
+gcd:
+  image: vantagesports/gcd-emulator:grpc
+  ports:
+    - "10014:8080"
+
+lolstats:
+  build: ../../
+  dockerfile: ./cmd/lolstatsserver/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolstats:/go/src/github.com/VantageSports/lolstats
+    - $GOPATH/src/github.com/VantageSports/lolstats/testdata:/tmp/testdata
+  ports:
+    # grpc port
+    - "50014:50000"
+    # debug http port
+    - "9014:80"
+  links:
+    - "gcd"
+  working_dir: /go/src/github.com/VantageSports/lolstats
+  environment:
+    - ADDR_USERS_V2=${DOCKER_GUEST}:50000
+    - GOOG_CREDS_JSON=gcp-vs-dev.json
+    - GOOG_PROJECT_ID=vs-dev
+    - SIGN_KEY_INTERNAL=string:_fake_internal_key_
+    - BIG_QUERY_TABLE_BASIC=vsd_lol.lolstats_basic
+    - BIG_QUERY_TABLE_ADVANCED=vsd_lol.lolstats_advanced
+    - MATCH_STORE_LOCATION=gs://vsd-esports/lol/crawl/matches
+    - MATCH_STATS_STORE_LOCATION=gs://vsd-esports/lol/baseview
+    - LOL_USERS_SERVER_ADDR=${DOCKER_GUEST}:50001
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'godep go install ./cmd/lolstatsserver && /go/bin/lolstatsserver'

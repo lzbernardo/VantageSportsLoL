@@ -1,0 +1,5 @@
+{
+    "build": {
+        "cmd/observer/Dockerfile": "gcr.io/vs-containers/vs-lolobserver"
+    }
+}

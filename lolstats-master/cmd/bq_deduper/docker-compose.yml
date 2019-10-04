@@ -1,0 +1,18 @@
+bq_deduper:
+  build: ../../
+  dockerfile: ./cmd/bq_deduper/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolstats:/go/src/github.com/VantageSports/lolstats
+  working_dir: /go/src/github.com/VantageSports/lolstats
+  environment:
+    - GOOG_PROJECT_ID=vs-dev
+    - GOOG_CREDS_JSON=gcp-vs-dev.json
+    - BIG_QUERY_DATASET=vsd_lol
+    - BIG_QUERY_TABLE_BASIC=lolstats_basic
+    - BIG_QUERY_TABLE_ADVANCED=lolstats_advanced
+    - BIG_QUERY_SCHEMA_FILE_BASIC=./cmd/bq_deduper/basic_stats_schema.json
+    - BIG_QUERY_SCHEMA_FILE_ADVANCED=./cmd/bq_deduper/advanced_stats_schema.json
+    - DAYS_TO_DEDUPE=2
+    - WAIT_TIME_MINUTES=10
+
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'godep go install ./cmd/bq_deduper && /go/bin/bq_deduper'

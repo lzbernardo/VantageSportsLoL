@@ -1,0 +1,17 @@
+qserver:
+  build: ../
+  dockerfile: run/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolqueue:/go/src/github.com/VantageSports/lolqueue
+  ports:
+    - "9095:80"
+  working_dir: /go/src/github.com/VantageSports/lolqueue
+  environment:
+    - ADDR_RIOT_PROXY=change
+    - ADDR_LOLUSERS=me
+    - ADDR_PAYMENT=if
+    - ADDR_USERS_V2=needed
+    - FAKE=true
+    - INSECURE_GRPC=true
+    - PORT=:80
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/server && /go/bin/server'

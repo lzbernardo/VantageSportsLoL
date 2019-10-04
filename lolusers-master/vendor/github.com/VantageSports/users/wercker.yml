@@ -1,0 +1,14 @@
+box: golang:latest
+build:
+  steps:
+    - setup-go-workspace
+    - script:
+        name: Install godep
+        code: |-
+          go get github.com/tools/godep
+    - script:
+        name: Build
+        code: godep go build -v ./...
+    - script:
+        name: Test (verbose on failure)
+        code: godep go test -cover ./... || godep go test -v ./...

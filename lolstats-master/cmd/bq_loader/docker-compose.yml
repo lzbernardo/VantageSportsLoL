@@ -1,0 +1,17 @@
+bq_loader:
+  build: ../../
+  dockerfile: ./cmd/bq_loader/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolstats:/go/src/github.com/VantageSports/lolstats
+  working_dir: /go/src/github.com/VantageSports/lolstats
+  environment:
+    - GOOG_PROJECT_ID=vs-dev
+    - GOOG_CREDS_JSON=gcp-vs-dev.json
+    - LOAD_INTERVAL_MINUTES=10
+    - BIG_QUERY_DATASET=vsd_lol
+    - BIG_QUERY_TABLE_BASIC=lolstats_basic
+    - BIG_QUERY_TABLE_ADVANCED=lolstats_advanced
+    - JSON_DIR_BASIC=gs://vsd-esports/lol/bqimport
+    - JSON_DIR_ADVANCED=gs://vsd-esports/lol/bqimport
+
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'godep go install ./cmd/bq_loader && /go/bin/bq_loader'

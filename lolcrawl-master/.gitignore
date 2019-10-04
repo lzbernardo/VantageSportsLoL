@@ -1,0 +1,9 @@
+# Backups
+*~
+
+# Binaries
+cmd/crawl/crawl
+cmd/match_download/match_download
+cmd/replay_server/fakeriot
+cmd/seed_summoners/seed_summoners
+cmd/summoner_crawl/summoner_crawl

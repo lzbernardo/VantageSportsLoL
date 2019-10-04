@@ -1,0 +1,233 @@
+{
+  "team_id": 100,
+  "match_id": 2344262088,
+  "platform_id": "NA1",
+  "last_updated": "2017-02-01T14:36:29.713791832-08:00",
+  "damage_dealt": {
+    "117": {
+      "early": {
+        "damage_total": 282.65444059371976,
+        "damage_percent": 42.572192047826526
+      },
+      "late": {
+        "damage_total": 454.5558034896852,
+        "damage_percent": 29.566472055214142
+      },
+      "mid": {
+        "damage_total": 1252.8439428329468,
+        "damage_percent": 100.55654689771735,
+        "deaths": 1
+      }
+    },
+    "222": {
+      "early": {
+        "damage_total": 495.2289585113525,
+        "damage_percent": 63.68613278571058
+      },
+      "late": {
+        "damage_total": 861.4786533355713,
+        "damage_percent": 52.799361389320644
+      },
+      "mid": {
+        "damage_total": 1713.6979393005372,
+        "damage_percent": 138.93916843048393,
+        "deaths": 1
+      }
+    },
+    "64": {
+      "early": {
+        "damage_total": 521.2565139770509,
+        "damage_percent": 64.36801721396996,
+        "deaths": 1
+      },
+      "late": {
+        "damage_total": 1666.94783577919,
+        "damage_percent": 69.47805112918276,
+        "deaths": 1
+      },
+      "mid": {
+        "damage_total": 1926.9054522514348,
+        "damage_percent": 116.76166588367418,
+        "deaths": 1
+      }
+    },
+    "75": {
+      "early": {
+        "damage_total": 685.9715839385988,
+        "damage_percent": 74.69273620454241
+      },
+      "late": {
+        "damage_total": 2179.2179901123045,
+        "damage_percent": 89.65950610551046
+      },
+      "mid": {
+        "damage_total": 2887.3961983680724,
+        "damage_percent": 174.33567875080576,
+        "deaths": 1
+      }
+    },
+    "91": {
+      "early": {
+        "damage_total": 478.8529920578,
+        "damage_percent": 57.640897844195806
+      },
+      "late": {
+        "damage_total": 1638.8533847808842,
+        "damage_percent": 98.29114805536491,
+        "deaths": 1
+      },
+      "mid": {
+        "damage_total": 2094.4278932571406,
+        "damage_percent": 155.42006930014736,
+        "deaths": 1
+      }
+    }
+  },
+  "damage_taken": {
+    "117": {
+      "early": {
+        "damage_total": 391.1197651863097,
+        "damage_percent": 53.26926716858003
+      },
+      "late": {
+        "damage_total": 434.1937428474424,
+        "damage_percent": 17.538787612084924
+      },
+      "mid": {
+        "damage_total": 517.8848521232605,
+        "damage_percent": 36.76119018765889
+      }
+    },
+    "222": {
+      "early": {
+        "damage_total": 576.5541419982912,
+        "damage_percent": 75.36394492095738
+      },
+      "late": {
+        "damage_total": 1161.4068702697755,
+        "damage_percent": 53.61232137091547
+      },
+      "mid": {
+        "damage_total": 1385.0261280059817,
+        "damage_percent": 114.25328378038925
+      }
+    },
+    "64": {
+      "early": {
+        "damage_total": 192.3567430019378,
+        "damage_percent": 24.639298230747833
+      },
+      "late": {
+        "damage_total": 458.7970233917237,
+        "damage_percent": 22.562219407252048
+      },
+      "mid": {
+        "damage_total": 1553.020786285401,
+        "damage_percent": 91.40805464356481,
+        "deaths": 1
+      }
+    },
+    "75": {
+      "early": {
+        "damage_total": 634.4378690719602,
+        "damage_percent": 59.22622547434433
+      },
+      "late": {
+        "damage_total": 1025.4606889724732,
+        "damage_percent": 47.400517101159835
+      },
+      "mid": {
+        "damage_total": 2182.9811493873594,
+        "damage_percent": 130.30723970266808,
+        "deaths": 1
+      }
+    },
+    "91": {
+      "early": {
+        "damage_total": 747.3957152366639,
+        "damage_percent": 81.0965036993772
+      },
+      "late": {
+        "damage_total": 1637.8374874114993,
+        "damage_percent": 81.69886066975837,
+        "deaths": 1
+      },
+      "mid": {
+        "damage_total": 1934.1101345062257,
+        "damage_percent": 121.4289195838251
+      }
+    }
+  },
+  "damage_taken_percent_per_death": 253.99109733424976,
+  "carry_focus_efficiency": 0.31065432806381466,
+  "attacks_per_minute": 24.194746236696126,
+  "ability_counts": {
+    "E": 32,
+    "Q": 116,
+    "R": 12,
+    "W": 76
+  },
+  "ability_counts_zero_to_ten": {
+    "E": 8,
+    "Q": 30,
+    "R": 2,
+    "W": 18
+  },
+  "map_coverages": {
+    "early": 23.888888888888893,
+    "full": 64.44444444444446,
+    "late": 32.916666666666664,
+    "mid": 45.27777777777778
+  },
+  "useful_percent": {
+    "all": 36.69088397460786,
+    "early": 34.33358794148766,
+    "late": 42.01438188472125,
+    "mid": 36.177565592449824
+  },
+  "favorable_team_fights": {
+    "count": 44,
+    "kills": 43,
+    "deaths": 13,
+    "net_kills": 0.6818181818181818
+  },
+  "balanced_team_fights": {
+    "count": 50,
+    "kills": 55,
+    "deaths": 21,
+    "net_kills": 0.68
+  },
+  "unfavorable_team_fights": {
+    "count": 27,
+    "kills": 21,
+    "deaths": 19,
+    "net_kills": 0.07407407407407407
+  },
+  "reveals_per_ward_average": 1.8962626262626263,
+  "live_wards_average": {
+    "blue": 0.16444637528140899,
+    "pink": 0.4462128953950697,
+    "yellow": 0.45446710171115823,
+    "yellow_and_blue": 0.6189134769925673
+  },
+  "favorable_team_fight_percent": 36.760233918128655,
+  "good_kills": {
+    "total": 46,
+    "numbers_difference": 12,
+    "numbers_difference_lacking_vision": 5,
+    "health_difference": 1,
+    "gold_spent_difference": 15,
+    "neutral_damage_difference": 0,
+    "other": 13
+  },
+  "bad_deaths": {
+    "total": 11,
+    "numbers_difference": 3,
+    "numbers_difference_lacking_vision": 2,
+    "health_difference": 2,
+    "gold_spent_difference": 0,
+    "neutral_damage_difference": 0,
+    "other": 4
+  },
+  "combo_damage_per_minute": 397.37016828959315
+}

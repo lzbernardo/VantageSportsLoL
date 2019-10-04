@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Vantage League Leaderboard</title>
+</head>
+<body>
+
+<h1>Vantage League Top 10 Leaderboard</h1>
+
+{{ range $i, $v := .StatDefs }}
+<table>
+  {{ range $j, $name := $v }}
+    {{ if eq $j 0 }}
+      <tr><th colspan="4">{{ $name }}</th></tr>
+      {{ range $k, $stat := $.TopStats }}
+        {{ if eq $k $name }}
+          {{ range $l, $entry := $stat }}
+            <tr><td>{{ $entry.SummonerName }}</td>
+{{ if ne $entry.MatchId 0 }}
+<td><a href="http://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/{{ $entry.MatchId }}">Link to match</a></td>
+<td><img style="height:40px" src="{{ $entry.ChampionIcon }}"/></td>
+{{ else }}
+<td colspan="2">{{ $entry.Count }} match{{ if ne $entry.Count 1}}es{{end}}</td>
+{{ end }}
+<td>{{ $entry.StatValue }}</td></tr>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+</table>
+{{ end }}
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+basicstatsingester:
+  build: ../../
+  dockerfile: ./cmd/basic_stats_ingester/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolstats:/go/src/github.com/VantageSports/lolstats
+  working_dir: /go/src/github.com/VantageSports/lolstats
+  environment:
+    - BASIC_STATS_STORE_LOCATION=gs://vsd-esports/lol/baseview
+    - BQ_IMPORT_LOCATION=gs://vsd-esports/lol/bqimport
+    - GOOG_CREDS_JSON=gcp-vs-dev.json
+    - GOOG_PROJECT_ID=vs-dev
+    - INPUT_QUEUE_ID=lol_basic_stats_ingest
+    - RIOT_PROXY_SERVER_ADDR=${DOCKER_GUEST}:50020
+    - SIGN_KEY_INTERNAL=string:_fake_internal_key_
+
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/basic_stats_ingester && /go/bin/basic_stats_ingester'
+
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'Godep*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

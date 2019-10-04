@@ -1,0 +1,17 @@
+goalsupdater:
+  build: ../../
+  dockerfile: ./cmd/goals_updater/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolstats:/go/src/github.com/VantageSports/lolstats
+  working_dir: /go/src/github.com/VantageSports/lolstats
+  environment:
+    - GOOG_CREDS_JSON=gcp-vs-dev.json
+    - GOOG_PROJECT_ID=vs-dev
+    - INPUT_QUEUE_ID=lol_goals_update
+    - MATCH_STATS_STORE_LOCATION=gs://vsd-esports/lol/baseview
+
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/goals_updater && /go/bin/goals_updater'
+
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'Godep*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

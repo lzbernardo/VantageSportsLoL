@@ -1,0 +1,25 @@
+<powershell>
+$url = "{{ .UrlBase }}/static-files/datagenWorker.exe"
+$output = "C:\Users\Administrator\Desktop\datagenWorker.exe"
+Invoke-WebRequest -Uri $url -OutFile $output  
+
+$url = "{{ .UrlBase }}/static-files/replay.bat"
+$output = "C:\Users\Administrator\Desktop\replay.bat"
+Invoke-WebRequest -Uri $url -OutFile $output
+
+New-Item c:\needs_bootstrap.txt -type file
+
+gcloud auth activate-service-account --key-file {{ .GoogCreds }}
+
+$url = "http://169.254.169.254/latest/meta-data/instance-id"
+$Page = Invoke-WebRequest -Uri $url
+$spotRequestLine = aws ec2 describe-instances --region {{ .AwsRegion }} --instance-ids=$Page | findstr "SpotInstanceRequestId"
+$spotRequestId = $spotRequestLine.Split(":")[1].Trim(" "",")
+aws ec2 create-tags --region {{ .AwsRegion }} --resources $spotRequestId --tags 'Key=project_id,Value={{ .GoogProjectID }}' 'Key=purpose,Value=datagen'
+
+$env:GOOG_PROJECT_ID = "{{ .GoogProjectID }}"
+$env:GOOG_CREDS_JSON = "{{ .GoogCreds }}"
+$env:DATA_OUTPUT_PATH = "{{ .DataOutputPath }}"
+$env:PLUGIN_DOWNLOAD_PATH = "{{ .PluginDownloadPath }}"
+C:\Users\Administrator\Desktop\datagenWorker -queueID {{ .InputQueueID }} -coordinatorURL {{ .UrlBase }} -clientVersion {{ .ClientVersion }} -outQueueID {{ .OutputQueueID }}
+</powershell>

@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package messages;
+
+// GameFileMigration describes the transition of a game file from one format
+// to another. Some other messages annotate it with additional fields
+// (see MigrateChances) and some workflow stages use it directly (such as
+// OCRJoinChances and AggregateChances)
+message GameFileMigration {
+	string game_id = 1;
+	string source = 2;
+	string destination = 3;
+}
+
+message MigrateChances {
+	GameFileMigration game_migration = 1;
+	string source_schema = 2;
+	string dest_schema = 3;
+}
+
+message OCRTextExtraction {
+	string game_id = 1;
+	string video_path = 2;
+	int64 extracted_frames_per_second = 3;
+	string output_images_path = 4;
+	OCRDimensions dimensions = 5;
+}
+
+message OCRDimensions {
+	int64 x = 1;
+	int64 y = 2;
+	int64 width  = 3;
+	int64 height = 4;
+	int64 pix_above_colon = 5;
+	int64 pix_min_1 = 6;
+	int64 pix_min_2 = 7;
+	int64 pix_sec_1 = 8;
+	int64 pix_sec_2 = 9;
+	int64 slot_width = 10;
+	int64 slot_height = 11;
+	string background = 12;
+
+	// SecondsAdjustment is the number is pixels to adjust for when the
+	// colon is removed and seconds under a minute adjust to the left.
+	int64 seconds_adjustment = 13;
+
+	// DecimalAdjustment is the number is pixels to adjust for when the
+	// colon is removed and the decimal is added that adjusts the
+	// placement of the seconds.
+	int64 decimal_adjustment = 14;
+}
+
+message ValidateChances {
+	GameFileMigration game_migration = 1;
+	repeated string validations = 2;
+}
+
+
+// VideoJoin describes 2 or more existing, input videos that should be joined
+// into a new video file. Joins happen in the order of the inputs. If
+// FailOnNoInput is false, then missing input files are just skipped, otherwise
+// the task fails. If MakePublic is true, the file is made public upon upload
+// to Destination.
+message VideoJoin {
+	repeated string sources = 1;
+	bool fail_on_no_input = 2;
+	string destination = 3;
+	bool make_public = 4;
+}
+
+// Split describes segments of an existing source video that should be
+// made into their own video files (at Destinations). Segments and Destinations
+// should therefore be the same size. Splits from two different video sources
+// should be two different split messages.
+message VideoSplit {
+	string source = 1;
+	repeated VideoSegment segments = 2;
+	repeated string destinations = 3;
+}
+
+message VideoSegment {
+	float start_seconds = 1;
+	float end_seconds = 2;
+}

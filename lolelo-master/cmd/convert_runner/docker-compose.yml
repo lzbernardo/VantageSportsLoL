@@ -1,0 +1,13 @@
+convert_runner:
+  build: ../../
+  dockerfile: ./cmd/convert_runner/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolelo:/go/src/github.com/VantageSports/lolelo
+  environment:
+    - GOOG_CREDS_JSON=_fake_
+    - GOOG_PROJECT_ID=dev
+    - OUTPUT_DIR=gs://vsd-esports/lol/baseview
+    - PUBSUB_INPUT_SUB=lol_eloprocess
+    - REPLAY_DATA_DIR=gs://vsd-esports/lol/replay/matches
+  working_dir: /go/src/github.com/VantageSports/lolelo
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/convert_runner && /go/bin/convert_runner'

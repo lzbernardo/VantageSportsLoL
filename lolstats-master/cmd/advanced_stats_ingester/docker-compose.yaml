@@ -1,0 +1,14 @@
+advanced_stats_ingester:
+  build: ../../
+  dockerfile: ./cmd/advanced_stats_ingester/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolstats:/go/src/github.com/VantageSports/lolstats
+  working_dir: /go/src/github.com/VantageSports/lolstats
+  environment:
+    - GOOG_CREDS_JSON=gcp-vs-dev.json
+    - GOOG_PROJECT_ID=vs-dev
+    - PUBSUB_INPUT_SUB=lol_advanced_stats_ingest
+    - OUTPUT_DIR=gs://vsd-esports/lol/baseview
+    - BQ_OUTPUT_DIR=gs://vsd-esports/lol/bqimport
+    - PUBSUB_OUTPUT_SUB=lol_goals_update
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/advanced_stats_ingester && /go/bin/advanced_stats_ingester'

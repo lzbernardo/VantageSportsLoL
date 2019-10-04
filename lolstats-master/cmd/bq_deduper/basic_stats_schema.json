@@ -1,0 +1,174 @@
+[
+  {
+    "name": "summoner_id",
+    "type": "integer"
+  },
+  {
+    "name": "platform_id",
+    "type": "string"
+  },
+  {
+    "name": "match_id",
+    "type": "integer"
+  },
+  {
+    "name": "match_creation",
+    "type": "integer"
+  },
+  {
+    "name": "match_duration",
+    "type": "integer"
+  },
+  {
+    "name": "champion_id",
+    "type": "integer"
+  },
+  {
+    "name": "lane",
+    "type": "string"
+  },
+  {
+    "name": "role",
+    "type": "string"
+  },
+  {
+    "name": "opponent_champion_id",
+    "type": "integer"
+  },
+  {
+    "name": "queue_type",
+    "type": "string"
+  },
+  {
+    "name": "match_version",
+    "type": "string"
+  },
+  {
+    "name": "tier",
+    "type": "string"
+  },
+  {
+    "name": "division",
+    "type": "string"
+  },
+  {
+    "name": "kills",
+    "type": "integer"
+  },
+  {
+    "name": "deaths",
+    "type": "integer"
+  },
+  {
+    "name": "assists",
+    "type": "integer"
+  },
+  {
+    "name": "cs_per_minute_zero_to_ten",
+    "type": "float"
+  },
+  {
+    "name": "cs_per_minute_diff_zero_to_ten",
+    "type": "float"
+  },
+  {
+    "name": "neutral_minions_killed_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "neutral_minions_killed_enemy_jungle_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "gold_zero_to_ten",
+    "type": "float"
+  },
+  {
+    "name": "gold_diff_zero_to_ten",
+    "type": "float"
+  },
+  {
+    "name": "gold_ten_to_twenty",
+    "type": "float"
+  },
+  {
+    "name": "gold_diff_ten_to_twenty",
+    "type": "float"
+  },
+  {
+    "name": "gold_twenty_to_thirty",
+    "type": "float"
+  },
+  {
+    "name": "gold_diff_twenty_to_thirty",
+    "type": "float"
+  },
+  {
+    "name": "level_6_seconds",
+    "type": "float"
+  },
+  {
+    "name": "level_6_diff_seconds",
+    "type": "float"
+  },
+  {
+    "name": "wards_placed",
+    "type": "integer"
+  },
+  {
+    "name": "wards_placed_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "wards_killed_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "total_damage_dealt",
+    "type": "integer"
+  },
+  {
+    "name": "total_damage_dealt_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "total_damage_dealt_to_champions",
+    "type": "integer"
+  },
+  {
+    "name": "total_damage_dealt_to_champions_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "total_damage_taken",
+    "type": "integer"
+  },
+  {
+    "name": "total_damage_taken_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "total_heal",
+    "type": "integer"
+  },
+  {
+    "name": "total_heal_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "average_death_time_percentage",
+    "type": "float"
+  },
+  {
+    "name": "last_updated",
+    "type": "timestamp"
+  },
+  {
+    "name": "champion_index",
+    "type": "integer"
+  },
+  {
+    "name": "won",
+    "type": "boolean"
+  }
+]

@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-match-downloader-runner-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        api: v1
+        app: lol-match-downloader-runner
+        env: staging
+    spec:
+      containers:
+      - env:
+        - name: GOOG_PROJECT_ID
+          value: vs-staging1
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-staging1
+        - name: INPUT_SUB_ID
+          value: lol_match_download
+        - name: MATCH_STORE_LOCATION
+          value: gs://vss-esports/lol/crawl/matches
+        - name: OBSERVER_STORE_LOCATION
+          value: gs://vss-esports/lol/replay/matches
+        - name: OUTPUT_TOPIC_ID
+          value: lol_match_dispatch
+        - name: RECENT_GAMES_STORE_LOCATION
+          value: gs://vss-esports/lol/crawl/matches
+        - name: REQ_PER_10SEC
+          value: "50"
+        - name: RIOT_API_KEY
+          value: file_trim:/etc/creds/riot-api-key
+        image: gcr.io/vs-containers/lol-match-downloader
+        imagePullPolicy: Always
+        name: lol-match-downloader-runner-v1
+        resources:
+          requests:
+            cpu: 50m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-staging
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-staging
+        secret:
+          secretName: creds-staging

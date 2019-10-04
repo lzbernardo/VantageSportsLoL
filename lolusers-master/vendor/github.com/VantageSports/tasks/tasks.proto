@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package tasks;
+
+import "vendor/github.com/VantageSports/common/queue/messages/common.proto";
+
+service Email {
+	rpc Send(EmailRequest) returns (SimpleResponse) {}
+}
+
+message EmailRequest {
+	string feedback_type = 1;
+	messages.Email email = 2;
+}
+
+message SimpleResponse {}

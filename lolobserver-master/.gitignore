@@ -1,0 +1,6 @@
+# Backups
+*~
+
+# Binaries
+cmd/observer/observer
+cmd/download_match/download_match

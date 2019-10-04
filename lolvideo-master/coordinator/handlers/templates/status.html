@@ -1,0 +1,52 @@
+<h1>Status</h1>
+<div>Videogen Queue Size: {{.QueueSize}}</div>
+<div>Datagen Queue Size: {{.DatagenQueueSize}}</div>
+<div>Actions:</div>
+<ul>
+  <li><a href="/lolvideo/addWorker">Add Videogen Workers</a></li>
+  <li><a href="/lolvideo/addDataWorker">Add Datagen Workers</a></li>
+  <li><a href="/lolvideo/upgradeAmi">Upgrade Worker Image</a> -
+    Run this once when Riot releases a patch</li>
+</ul>
+<div>Worker Machines:</div>
+  <div style="margin-bottom: 20px">
+  {{ range $key, $value := .AwsRegions }}
+    <span style="margin: 0px 25px">
+    {{ if eq $key $.CurrentRegion }}
+      <b>{{ $key }}</b>
+      <input type="hidden" name="region" value="{{ $key }}" />
+    {{ else }}
+      <a href="/lolvideo/status?region={{ .Name }}">{{ $key }}</a>
+    {{ end }}
+    </span>
+  {{ end }}
+  </div>
+<ol style="height: 400px; overflow: auto; border: 1px solid">
+{{ range $key, $value := .WorkerMachines }}
+   <li><strong>{{ $value.InstanceId }}</strong></li>
+   <ul>
+     <li>Public DNS: {{ $value.PublicDnsName }}</li>
+     <li>Launch Time: {{ $value.LaunchTime }}</li>
+     {{ range $.WorkerMachineRequests }}
+       {{ if eq (Deref $value.SpotInstanceRequestId) (Deref .SpotInstanceRequestId)}}
+         {{ range .Tags }}
+           <li> {{.Key}} = {{.Value}}</li>
+         {{ end }}
+       {{ end }}
+     {{ end }}
+   </ul>
+{{ end }}
+</ol>
+
+<div>Virtual Display Status</div>
+<ul style="height: 400px; overflow: auto; border: 1px solid">
+{{ range $key, $value := .DisplayStatuses }}
+   <li><strong>{{ $value.ID }}</strong></li>
+   <ul>
+     <li>In Use? {{ $value.InUse }}</li>
+     <li>Last Used by: {{ $value.LastUsedBy }}</li>
+     <li>Last Used at: {{ $value.LastUsedAt }}</li>
+     <li>Message: {{ $value.Message }}</li>
+   </ul>
+{{ end }}
+</ul>

@@ -1,0 +1,18 @@
+replayserver:
+  build: ../../
+  dockerfile: ./cmd/replay_server/Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolcrawl:/go/src/github.com/VantageSports/lolcrawl
+  ports:
+    - "9008:8080"
+  working_dir: /go/src/github.com/VantageSports/lolcrawl/cmd/replay_server
+  environment:
+    - GCS_REPLAY_PREFIX=gs://vsd-esports/lol/replay/matches
+    - GOOG_PROJECT_ID=vs-dev
+    - GOOG_CREDS_JSON=../../dev/fake_goog_creds.json
+    - PORT=:8080
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./ && /go/bin/replay_server'
+
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'Godep*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

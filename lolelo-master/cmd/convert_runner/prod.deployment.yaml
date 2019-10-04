@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-eloprocess-runner-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-eloprocess-runner
+        env: prod
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-vs-main
+        - name: GOOG_PROJECT_ID
+          value: vs-main
+        - name: OUTPUT_DIR
+          value: gs://vsp-esports/lol/baseview
+        - name: PUBSUB_INPUT_SUB
+          value: lol_eloprocess
+        - name: PUBSUB_OUTPUT_TOPIC
+          value: lol_advanced_stats_ingest
+        - name: REPLAY_DATA_DIR
+          value: gs://vsp-esports/lol/replay/matches
+        image: gcr.io/vs-containers/lol-eloprocess-runner:new
+        imagePullPolicy: Always
+        name: lol-eloprocess-runner-v1
+        resources:
+          requests:
+            cpu: 10m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-prod
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-prod
+        secret:
+          secretName: creds-prod

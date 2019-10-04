@@ -1,0 +1,48 @@
+<h1>Add Datagen Workers</h1>
+<form method="POST" action="/lolvideo/addDataWorkerSubmit">
+  <div style="margin-bottom: 20px">
+  {{ range .AwsRegions }}
+    <span style="margin: 0px 25px">
+    {{ if eq .Name $.CurrentRegion }}
+      <b>{{ .Name }}</b>
+      <input type="hidden" name="region" value="{{ .Name }}" />
+    {{ else }}
+      <a href="/lolvideo/addDataWorker?region={{ .Name }}">{{ .Name }}</a>
+    {{ end }}
+    </span>
+  {{ end }}
+  </div>
+  <div>AMI to use:</div>
+    {{ if not .Amis }}
+      <div style="margin:10px"><b>Error retrieving AMIs</b></div>
+    {{ else }}
+      {{ range .Amis }}
+        <input type="radio" name="amiId" value="{{ .ImageId }}" id="{{ .ImageId }}"/>
+	<label for="{{ .ImageId }}">
+	  <strong>{{ .Name }}</strong><br/>
+	  Description: {{ .Description }}<br/>
+	  Creation Date: {{ .CreationDate }}
+	</label><br/><br/>
+      {{ end }}
+    {{ end }}
+  <div>
+    <strong>Current Spot Prices</strong>
+  </div>
+  <ul>
+    {{ range $key, $value := .SpotPrices }}
+      <li>{{ $key }} = {{ $value }}</li>
+    {{ end }}
+  </ul>
+  <div>Number of instances to launch:
+    <input type="text" name="numInstances" />
+  </div>
+  <div>Maximum Spot Price:
+    <input type="text" name="maxPrice" />
+  </div>
+  <div>Maintain capacity? (requires manual termination)
+    <input type="checkbox" name="maintain" />
+    <span>&nbsp;With Autoscaler?</span>
+    <input type="checkbox" name="autoscale" />
+  </div>
+  <div><input type="submit" value="Submit" /></div>
+</form>

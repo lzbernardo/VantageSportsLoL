@@ -1,0 +1,244 @@
+syntax = "proto3";
+
+package lolstats;
+
+import "google/protobuf/timestamp.proto";
+
+service Lolstats {
+  rpc History(HistoryRequest) returns(HistoryResponse) {}
+  rpc Percentiles(StatsRequest) returns(StatListResponse) {}
+  rpc Details(MatchRequest) returns(DetailsResponse) {}
+  rpc Advanced(MatchRequest) returns(AdvancedStats) {}
+  rpc SummonerMatches(StatsRequest) returns(StatListResponse) {}
+  rpc Search(SearchRequest) returns (SearchResponse) {}
+  rpc TeamDetails(TeamRequest) returns(TeamDetailsResponse) {}
+  rpc TeamAdvanced(TeamRequest) returns(TeamAdvancedStats) {}
+}
+
+message MatchSummary {
+  int64 summoner_id = 1;
+  string platform = 2;
+  int64 match_creation = 4;
+  int32 champion_id = 5;
+  string lane = 6;
+  int32 champion_index = 7;
+  int32 map_id = 8;
+  double match_duration = 9;
+  int64 match_id = 10;
+  string match_mode = 11;
+  string match_type = 12;
+  string match_version = 13;
+  int32 opponent_champion_id = 15;
+  string queue_type = 16;
+  string role = 17;
+  string summoner_name = 18;
+  bool winner = 19;
+
+  string tier = 20;
+  string division = 21;
+
+  int64 kills = 22;
+  int64 deaths = 23;
+  int64 assists = 24;
+}
+
+message BasicStats {
+  string statsJson = 1;
+}
+
+message AdvancedStats {
+  string statsJson = 1;
+}
+
+message TeamAdvancedStats {
+  // The keys are the 5 participant ids + team_id
+  map<int64, string> results = 1;
+}
+
+message HistoryRequest{
+  int64 summoner_id = 1;
+  string platform = 2;
+  int32 limit = 3;
+  string cursor = 5;
+  string queueType = 6;
+}
+
+message HistoryResponse{
+  repeated MatchSummary matches = 1;
+  string cursor = 2;
+}
+
+message StatsRequest{
+  repeated string selects = 1;
+  string platform = 2;
+  string queue_type = 3;
+  string patch_prefix = 4;
+  int32 last_n = 5;
+  string tier = 6;
+  string division = 7;
+  string lane = 8;
+  string role = 9;
+  int32 champion_id = 10;
+  int32 opponent_champion_id = 11;
+  int64 summoner_id = 12;
+  string role_position = 13;
+}
+
+// The keys of the result map are the "select" strings in the StatsRequest.
+// The values are arrays of numbers, representing values for each stat
+// For Percentiles, each array has 101 values, representing the 0th -> 100th percentile for that stat
+message StatListResponse{
+  message StatList {
+    repeated double values = 1;
+  }
+  map<string, StatList> result = 1;
+  int64 count = 2;
+}
+
+message MatchRequest{
+  int64 summoner_id = 1;
+  string platform = 2;
+  int64 match_id = 3;
+}
+
+message DetailsResponse{
+  BasicStats basic = 1;
+}
+
+message TeamRequest{
+  int64 team_id = 1;
+  string platform = 2;
+  int64 match_id = 3;
+}
+
+message TeamDetailsResponse{
+  // The keys are the 5 participant ids + team_id
+  map<int64, BasicStats> results = 1;
+}
+
+message SearchRequest {
+  string platform = 1;
+  string queue_type = 2;
+  string patch_prefix = 3;
+  int64 last_n = 4;
+  repeated string tiers = 5;
+  string role_position = 6;
+  int64 champion_id = 7;
+  int64 opponent_champion_id = 8;
+  string top_stat = 9;
+  repeated string good_kills = 10;
+  int64 exclude_summoner_id = 11;
+}
+
+message ReplayEntry {
+  int64 match_id = 1;
+  string platform = 2;
+  int64 opponent_champion_id = 3;
+  double gold_diff_zero_to_ten = 4;
+  map<string, int64> good_kills = 5;
+  string tier = 6;
+  double cs_diff = 7;
+}
+
+message SearchResponse {
+  repeated ReplayEntry results = 1;
+  int64 count = 2;  
+}
+
+service Lolgoals {
+  rpc CreateStats(GoalCreateStatsRequest) returns(CountResponse) {}
+  rpc CreateCustom(GoalCreateCustomRequest) returns(SimpleResponse) {}
+  rpc Get(GoalGetRequest) returns(GoalGetResponse) {}
+  rpc UpdateStatus(GoalUpdateStatusRequest) returns(SimpleResponse) {}
+  rpc Delete(GoalDeleteRequest) returns(SimpleResponse) {}
+}
+
+enum GoalStatus {
+  STATUS_NONE = 0;
+  NEW = 1;
+  ACCEPTED = 2;
+  COMPLETED = 4;
+  CANCELLED = 5;
+  COMPLETED_SEEN = 6;
+}
+
+enum GoalComparator {
+  COMPARATOR_NONE = 0;
+  GREATER_THAN = 1;
+  GREATER_THAN_OR_EQUAL = 2;
+  LESS_THAN_OR_EQUAL = 3;
+  LESS_THAN = 4;
+}
+
+enum GoalCategory {
+  CATEGORY_NONE = 0;
+  DECISION_MAKING = 1;
+  MECHANICS = 2;
+}
+
+message GoalCreateStatsRequest {
+  int64 summoner_id = 1;
+  string platform = 2;
+  string role_position = 3;
+  int64 num_goals = 4;
+  int64 target_achievement_count = 5;
+  repeated GoalCategory categories = 6;
+}
+
+message GoalCreateCustomRequest {
+  int64 summoner_id = 1;
+  string platform = 2;
+  string role_position = 3;
+  string underlying_stat = 4;
+}
+
+message GoalGetRequest {
+  int64 summoner_id = 1;
+  string platform = 2;
+  string role_position = 3;
+  int64 champion_id = 4;
+  GoalStatus status = 5;
+}
+
+message GoalGetResponse {
+  repeated Goal goals = 1;
+}
+
+message GoalUpdateStatusRequest {
+  int64 summoner_id = 1;
+  string platform = 2;
+  string goal_id = 3;
+  GoalStatus status = 4;
+}
+
+message GoalDeleteRequest {
+  int64 summoner_id = 1;
+  string platform = 2;
+  string goal_id = 3;
+}
+
+message Goal {
+  string id = 1;
+  google.protobuf.Timestamp created = 2;
+  google.protobuf.Timestamp last_updated = 3;
+  GoalStatus status = 4;
+  int64 summoner_id = 5;
+  string platform = 6;
+  string underlying_stat = 7;
+  double target_value = 8;
+  GoalComparator comparator = 9;
+  int64 achievement_count = 10;
+  int64 target_achievement_count = 11;
+  double importance_weight = 12;
+  string role_position = 14;
+  int64 champion_id = 15;
+  GoalCategory category = 16;
+  double last_value = 17;
+}
+
+message CountResponse {
+  int64 count = 1;
+}
+
+message SimpleResponse {
+}

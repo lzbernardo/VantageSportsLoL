@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lol-videogen-coordinator-v1
+  creationTimestamp: 2015-06-26T16:45:00Z
+  labels:
+    api: v1
+    app: lol-videogen-coordinator
+    env: staging
+spec:
+  selector:
+    api: v1
+    app: lol-videogen-coordinator
+    env: staging
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080

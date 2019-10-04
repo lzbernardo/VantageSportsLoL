@@ -1,0 +1,27 @@
+loldispatcher:
+  build: ./
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/loldispatcher:/go/src/github.com/VantageSports/loldispatcher
+  working_dir: /go/src/github.com/VantageSports/loldispatcher
+  environment:
+  # set DOCKER_GUEST as envirnoment variable on the command line
+  # on OSX, it's likely the address of your docker vm (e.g. 192.168.99.100)
+  # on linux, it's the localhost address of docker0 (e.g. 172.17.0.1)
+    - ADDR_LOL_USERS=${DOCKER_GUEST}:50001
+  # $GCLOUD_DIR/platform/cloud-datastore-emulator/cloud_datastore_emulator create /tmp/ds
+  # $GCLOUD_DIR/platform/cloud-datastore-emulator/cloud_datastore_emulator start --host="::" --port="20002" /tmp/ds
+    - DATASTORE_EMULATOR_HOST=${DOCKER_GUEST}:20002
+    - GOOG_PROJECT_ID=localdev
+    - GOOG_CREDS_JSON=_fake_
+    - MATCH_DATA_DIR=gs://vsd-esports/lol/crawl/matches
+    - MATCH_COST=200
+  # $GCLOUD_DIR/platform/pubsub-emulator/bin/cloud-pubsub-emulator --host="::" --port="20001"
+    - PUBSUB_EMULATOR_HOST=${DOCKER_GUEST}:20001
+    - SUB_LOL_MATCH_DISPATCH=lol_match_dispatch
+    - SIGN_KEY_INTERNAL=string:_fake_internal_key_
+    - TOPIC_LOL_ELOGEN=lol_elogen
+    - TOPIC_LOL_BASIC_STATS=lol_basic_stats_ingest
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install && /go/bin/loldispatcher'
+
+# On OSX -- you can get the linux-y auto-reload behavior by running
+# $ reflex -R 'Godep*' -r '\.go' -s -- /bin/bash -c 'docker-compose up'

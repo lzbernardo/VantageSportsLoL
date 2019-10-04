@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package messages;
+
+message Email {
+	repeated string emails = 1;
+	string from_addr = 2;
+	string from_name = 3;
+	string subject = 4;
+	string body = 5;
+	string html_body = 6;
+}
+
+message FilesExistCondition {
+	repeated string files = 1;
+	int64 minutes_between = 2;
+	string topic = 3;
+	string message_json = 4;
+}
+
+message TranscodeVideo {
+	string source = 1;
+	string destination = 2;
+	string bit_rate = 3;
+	string dest_width = 4;
+	string dest_height = 5;
+	bool make_public = 6;
+}

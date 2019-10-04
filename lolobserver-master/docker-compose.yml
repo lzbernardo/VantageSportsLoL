@@ -1,0 +1,18 @@
+observer:
+  build: .
+  dockerfile: ./Dockerfile
+  volumes:
+    - $GOPATH/src/github.com/VantageSports/lolobserver:/go/src/github.com/VantageSports/lolobserver
+  environment:
+    - ADDR_LOL_USERS=${DOCKER_GUEST}:50001
+    - API_KEY=string:123__changeme__123
+    - GOOG_CREDS_JSON=_fake_
+    - GOOG_PROJECT_ID=vs-dev
+    - MINIMUM_VANTAGE_POINTS=200
+    - OUTPUT_MATCHES_PATH=gs://vsd-esports/lol/replay/matches
+    - REPLAY_SERVER=lolstreamer-dev.vantagesports.com:8080
+    - RIOT_REQ_PER_10SEC=15
+    - SIGN_KEY_INTERNAL=string:_fake_internal_key_
+    - TOPIC_LOL_MATCH_DOWNLOAD=lol_match_download
+  working_dir: /go/src/github.com/VantageSports/lolobserver
+  command: reflex -r '\.go$$' -s -- /bin/bash -c 'go install ./cmd/observer && /go/bin/observer'

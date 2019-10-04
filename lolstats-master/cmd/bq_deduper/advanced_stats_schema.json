@@ -1,0 +1,308 @@
+[
+  {
+    "name": "participant_id",
+    "type": "integer"
+  },
+  {
+    "name": "summoner_id",
+    "type": "integer"
+  },
+  {
+    "name": "team_id",
+    "type": "integer"
+  },
+  {
+    "name": "match_id",
+    "type": "integer"
+  },
+  {
+    "name": "platform_id",
+    "type": "string"
+  },
+  {
+    "name": "damage_taken_percent_per_death",
+    "type": "float"
+  },
+  {
+    "name": "carry_focus_efficiency",
+    "type": "float"
+  },
+  {
+    "name": "attacks_per_minute",
+    "type": "float"
+  },
+  {
+    "name": "ability_counts",
+    "type": "record",
+    "fields": 
+    [
+      {
+        "name": "Q",
+        "type": "integer"
+      },
+      {
+        "name": "W",
+        "type": "integer"
+      },
+      {
+        "name": "E",
+        "type": "integer"
+      },
+      {
+        "name": "R",
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "ability_counts_zero_to_ten",
+    "type": "record",
+    "fields": 
+    [
+      {
+        "name": "Q",
+        "type": "integer"
+      },
+      {
+        "name": "W",
+        "type": "integer"
+      },
+      {
+        "name": "E",
+        "type": "integer"
+      },
+      {
+        "name": "R",
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "map_coverages",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "early",
+        "type": "float"
+      },
+      {
+        "name": "mid",
+        "type": "float"
+      },
+      {
+        "name": "late",
+        "type": "float"
+      },
+      {
+        "name": "full",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "name": "useful_percent",
+    "type": "record",
+    "fields": 
+    [
+      {
+        "name": "early",
+        "type": "float"
+      },
+      {
+        "name": "mid",
+        "type": "float"
+      },
+      {
+        "name": "late",
+        "type": "float"
+      },
+      {
+        "name": "all",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "name": "favorable_team_fights",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "count",
+        "type": "integer"
+      },
+      {
+        "name": "kills",
+        "type": "integer"
+      },
+      {
+        "name": "deaths",
+        "type": "integer"
+      },
+      {
+        "name": "net_kills",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "name": "balanced_team_fights",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "count",
+        "type": "integer"
+      },
+      {
+        "name": "kills",
+        "type": "integer"
+      },
+      {
+        "name": "deaths",
+        "type": "integer"
+      },
+      {
+        "name": "net_kills",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "name": "unfavorable_team_fights",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "count",
+        "type": "integer"
+      },
+      {
+        "name": "kills",
+        "type": "integer"
+      },
+      {
+        "name": "deaths",
+        "type": "integer"
+      },
+      {
+        "name": "net_kills",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "name": "reveals_per_ward_average",
+    "type": "float"
+  },
+  {
+    "name": "live_wards_average",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "yellow",
+        "type": "float"
+      },
+      {
+        "name": "pink",
+        "type": "float"
+      },
+      {
+        "name": "blue",
+        "type": "float"
+      },
+      {
+        "name": "yellow_and_blue",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "name": "favorable_team_fight_percent",
+    "type": "float"
+  },
+  {
+    "name": "role_position",
+    "type": "string"
+  },
+  {
+    "name": "last_updated",
+    "type": "timestamp"
+  },
+  {
+    "name": "good_kills",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "total",
+        "type": "integer"
+      },
+      {
+        "name": "numbers_difference",
+        "type": "integer"
+      },
+      {
+        "name": "numbers_difference_lacking_vision",
+        "type": "integer"
+      },
+      {
+        "name": "health_difference",
+        "type": "integer"
+      },
+      {
+        "name": "gold_spent_difference",
+        "type": "integer"
+      },
+      {
+        "name": "neutral_damage_difference",
+        "type": "integer"
+      },
+      {
+        "name": "other",
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "bad_deaths",
+    "type": "record",
+    "fields":
+    [
+      {
+        "name": "total",
+        "type": "integer"
+      },
+      {
+        "name": "numbers_difference",
+        "type": "integer"
+      },
+      {
+        "name": "numbers_difference_lacking_vision",
+        "type": "integer"
+      },
+      {
+        "name": "health_difference",
+        "type": "integer"
+      },
+      {
+        "name": "gold_spent_difference",
+        "type": "integer"
+      },
+      {
+        "name": "neutral_damage_difference",
+        "type": "integer"
+      },
+      {
+        "name": "other",
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "combo_damage_per_minute",
+    "type": "float"
+  }
+]

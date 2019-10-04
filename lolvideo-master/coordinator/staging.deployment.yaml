@@ -1,0 +1,80 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-videogen-coordinator-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        api: v1
+        app: lol-videogen-coordinator
+        env: staging
+    spec:
+      containers:
+      - env:
+        - name: AUTH_HOST
+          value: https://api-gateway-staging.vantagesports.com:443
+        - name: AWS_CREDS_JSON
+          value: /etc/creds/aws-lolvideo-staging
+        - name: AWS_DEFAULT_REGION
+          value: us-east-1
+        - name: AWS_REGIONS
+          value: us-east-1,us-west-1,us-west-2,eu-west-1,ap-northeast-1
+        - name: CLIENT_MODE
+          value: replay
+        - name: CLIENT_SERVER
+          value: 104.197.245.81:8080
+        - name: COORDINATOR_URL_BASE
+          value: https://api-staging.vantagesports.com/lolvideo
+        - name: EC2_LAUNCH_KEY
+          value: /etc/creds/linux-g2-2.pem,/etc/creds/lolwest1.pem,/etc/creds/lolwest2.pem,/etc/creds/loleuwest1.pem,/etc/creds/lolapnortheast1.pem
+        - name: EC2_SECURITY_GROUP_ID
+          value: sg-0608006c,sg-30a4c174,sg-79a61b4a,sg-53c63e25,sg-cd9fe8cc
+        - name: EC2_WORKER_GOOG_CREDS_JSON
+          value: C:\Users\Administrator\Desktop\gcp-vs-staging.json
+        - name: EC2_WORKER_INSTANCE_TYPE_VIDEOGEN
+          value: g2.2xlarge
+        - name: EC2_WORKER_INSTANCE_TYPE_ELOGEN
+          value: g2.2xlarge
+        - name: ELODATA_OUTPUT_PATH
+          value: gs://vss-esports/lol/baseview/
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-staging1
+        - name: GOOG_PROJECT_ID
+          value: vs-staging1
+        - name: MIN_VIDEO_BITRATE_FILE_CHECK
+          value: "900000"
+        - name: PUBSUB_INPUT_ELO
+          value: lol_elogen
+        - name: PUBSUB_INPUT_VIDEO
+          value: lol_videogen
+        - name: PUBSUB_OUTPUT_ELO
+          value: lol_eloprocess
+        - name: VIDEO_OUTPUT_PATH
+          value: gs://vss-esports/lol/video/
+        - name: VNC_PASSWORD_FILE
+          value: /etc/creds/vncpasswd
+        - name: PLUGIN_DOWNLOAD_PATH
+          value: gs://vss-esports/lol/scripts/all/
+        - name: IAM_FLEET_ROLE
+          value: arn:aws:iam::316394917097:role/aws-ec2-spot-fleet-role
+        image: gcr.io/vs-containers/lol-videogen-coordinator
+        imagePullPolicy: Always
+        name: lol-videogen-coordinator-v1
+        resources:
+          limits:
+            cpu: 50m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-staging
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-staging
+        secret:
+          secretName: creds-staging

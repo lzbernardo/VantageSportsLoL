@@ -1,0 +1,9 @@
+# Backups
+*~
+
+# Binaries
+examples/all_endpoints/all_endpoints
+examples/find_matches_by_tier/find_matches_by_tier
+
+# Godeps
+Godeps/_workspace/pkg

@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-stats-ingester-basic-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        api: v1
+        app: lol-stats-ingester-basic
+        env: staging
+    spec:
+      containers:
+      - env:
+        - name: GOOG_PROJECT_ID
+          value: vs-staging1
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-staging1
+        - name: INPUT_QUEUE_ID
+          value: lol_basic_stats_ingest
+        - name: BASIC_STATS_STORE_LOCATION
+          value: gs://vss-esports/lol/baseview
+        - name: BQ_IMPORT_LOCATION
+          value: gs://vss-esports/lol/bqimport
+        - name: RIOT_PROXY_CERT_PATH
+          value: /etc/ssl-certs/crt-pem
+        - name: RIOT_PROXY_SERVER_ADDR
+          value: lol-riotproxy-server-v1.default.svc.cluster.local:443
+        - name: SIGN_KEY_INTERNAL
+          value: file_trim:/etc/creds/internal-sign-key
+
+        image: gcr.io/vs-containers/lol-stats-ingester-basic
+        imagePullPolicy: Always
+        name: lol-stats-ingester-basic-v1
+        resources:
+          requests:
+            cpu: 50m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-staging
+          readOnly: true
+        - mountPath: /etc/ssl-certs
+          name: ssl-certs
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-staging
+        secret:
+          secretName: creds-staging
+      - name: ssl-certs
+        secret:
+          secretName: sslcerts-vscom

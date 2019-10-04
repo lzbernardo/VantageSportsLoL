@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package lolusers;
+
+// LolUsers manages everything to do with users registering their summoner
+// with us and their vantage point balance which determines which games
+// they can get analyzed
+service LolUsers {
+  // CrawlSummoners takes a list of summoner ids and submits Summoner Crawl
+  // messages to pubsub assuming one hasn't been submitted for the summoner
+  // id in the last 20 minutes
+  rpc CrawlSummoners(CrawlSummonersRequest) returns (SimpleResponse){}
+
+  // Create saves a brand new LolUser to gcd that is mapped to users with
+  // a user id, any updates to the LolUser from then on will be done with
+  // the Update method
+  rpc Create(LolUserRequest) returns (LolUserResponse) {}
+
+  // Update will update an LolUser based on what information
+  // is contained in the request
+  rpc Update (LolUserRequest) returns (LolUserResponse) {}
+
+  // List returns a list of lolusers given a summoner id,
+  // user id, and/or region
+  rpc List(ListLolUsersRequest) returns (LolUsersResponse) {}
+
+  // AdjustVantagePoints adds to the vantage point balance of
+  // the loluser, only be can be done by someone with LolAdmin rights
+  rpc AdjustVantagePoints(VantagePointsRequest) returns(SimpleResponse) {}
+
+}
+
+message SimpleResponse {}
+
+message CrawlSummonersRequest {
+  repeated int64 summoner_ids = 1;
+  string platform = 2;
+}
+
+message LolUser {
+  string id = 1;
+  string user_id = 2;
+  string summoner_id = 3;
+  string region = 4;
+  int64  vantage_point_balance = 5;
+  bool   confirmed = 6;
+}
+
+message LolUserRequest {
+  LolUser lol_user = 1;
+}
+
+message ListLolUsersRequest {
+  string user_id = 1;
+  repeated int64 summoner_ids = 2;
+  string region = 3;
+}
+
+message LolUserResponse {
+  LolUser lol_user = 1;
+}
+
+message LolUsersResponse {
+  repeated LolUser lol_users = 1;
+}
+
+message VantagePointsRequest {
+  string user_id = 1;
+  int64 amount = 2;
+  bool absolute = 3;
+}

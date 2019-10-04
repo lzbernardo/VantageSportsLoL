@@ -1,0 +1,18 @@
+<powershell>
+$url = "{{ .UrlBase }}/static-files/videogenWorker.exe"
+$output = "C:\Users\Administrator\Desktop\videogenWorker.exe"
+Invoke-WebRequest -Uri $url -OutFile $output  
+
+$url = "{{ .UrlBase }}/static-files/replay.bat"
+$output = "C:\Users\Administrator\Desktop\replay.bat"
+Invoke-WebRequest -Uri $url -OutFile $output
+
+New-Item c:\needs_bootstrap.txt -type file
+
+gcloud auth activate-service-account --key-file {{ .GoogCreds }}
+
+$env:GOOG_PROJECT_ID = "{{ .GoogProjectID }}"
+$env:GOOG_CREDS_JSON = "{{ .GoogCreds }}"
+$env:VIDEO_OUTPUT_PATH = "{{ .VideoOutputPath }}"
+C:\Users\Administrator\Desktop\videogenWorker -queueID {{ .InputQueueID }} -coordinatorURL {{ .UrlBase }} -clientVersion {{ .ClientVersion }}
+</powershell>

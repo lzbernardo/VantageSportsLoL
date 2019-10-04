@@ -1,0 +1,27 @@
+# To add new columns to the bigquery tables:
+bq update (--project_id <proj_id>) <table> <schema file>
+
+Example:
+bq update lol.lolstats_advanced advanced_stats_schema.json
+
+# To dedupe a table:
+
+## Advanced
+
+./schema_column_dump.py advanced_stats_schema.json
+
+bq query --format=none --allow_large_results --destination_table=lol.lolstats_advanced_temp --noflatten_results --nouse_legacy_sql "SELECT <column_names> FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY summoner_id, match_id, platform_id order by last_updated desc) row_number FROM lol.lolstats_advanced) WHERE row_number = 1"
+
+bq cp lol.lolstats_advanced_temp lol.lolstats_advanced
+
+bq rm lol.lolstats_advanced_temp
+
+## Basic
+
+./schema_column_dump.py basic_stats_schema.json
+
+bq query --format=none --allow_large_results --destination_table=lol.lolstats_basic_temp --noflatten_results --nouse_legacy_sql "SELECT <column_names> FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY summoner_id, match_id, platform_id order by last_updated desc) row_number FROM lol.lolstats_basic) WHERE row_number = 1"
+
+bq cp lol.lolstats_basic_temp lol.lolstats_basic
+
+bq rm lol.lolstats_basic_temp

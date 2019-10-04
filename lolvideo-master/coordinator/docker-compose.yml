@@ -1,0 +1,37 @@
+version: '2'
+services:
+  lolvideo_coordinator:
+    build:
+      context: ..
+      dockerfile: coordinator/Dockerfile
+    volumes:
+      - $GOPATH/src/github.com/VantageSports/lolvideo/coordinator:/go/src/github.com/VantageSports/lolvideo/coordinator
+    ports:
+      - "9010:8080"
+    environment:
+      - AWS_CREDS_JSON=dev/aws_creds.json
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_REGIONS=us-east-1,us-west-1,us-west-2,eu-west-1,ap-northeast-1
+      - COORDINATOR_URL_BASE=http://localhost:9010/lolvideo
+      - GOOG_CREDS_JSON=dev/google_creds.json
+      - GOOG_PROJECT_ID=vs-dev
+      - EC2_LAUNCH_KEY=dev/linux_g2_2.pem,dev/lolwest1.pem,dev/lolwest2.pem,dev/loleuwest1.pem,dev/lolapnortheast1.pem
+      - EC2_SECURITY_GROUP_ID=sg-0608006c,sg-30a4c174,sg-79a61b4a,sg-53c63e25,sg-cd9fe8cc
+      - EC2_WORKER_GOOG_CREDS_JSON=C:\Users\Administrator\Desktop\gcp-vs-dev.json
+      - EC2_WORKER_INSTANCE_TYPE_VIDEOGEN=g2.2xlarge
+      - EC2_WORKER_INSTANCE_TYPE_ELOGEN=g2.2xlarge
+      - CLIENT_MODE=replay
+      - CLIENT_SERVER=replays.lolking.net:80
+      - VIDEO_OUTPUT_PATH=gs://vsd-esports/lol/video/
+      - AUTH_HOST=https://api-gateway-staging.vantagesports.com:443
+      - MIN_VIDEO_BITRATE_FILE_CHECK=900000
+      - PUBSUB_INPUT_ELO=lol_elogen
+      - PUBSUB_INPUT_VIDEO=lol_videogen
+      - PUBSUB_OUTPUT_ELO=lol_eloprocess
+      - ELODATA_OUTPUT_PATH=gs://vsd-esports/lol/baseview/
+      - VNC_PASSWORD_FILE=dev/passwd
+      - PLUGIN_DOWNLOAD_PATH=gs://vsd-esports/lol/scripts/all/
+      - IAM_FLEET_ROLE=arn:aws:iam::316394917097:role/aws-ec2-spot-fleet-role
+
+    working_dir: /go/src/github.com/VantageSports/lolvideo/coordinator
+    entrypoint: ["/go/bin/coordinator_server"]

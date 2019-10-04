@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-stats-ingester-advanced-v1
+spec:
+  replicas: 2
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-stats-ingester-advanced
+        env: prod
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: BQ_OUTPUT_DIR
+          value: gs://vsp-esports/lol/bqimport
+        - name: OUTPUT_DIR
+          value: gs://vsp-esports/lol/baseview
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-vs-main
+        - name: GOOG_PROJECT_ID
+          value: vs-main
+        - name: PUBSUB_INPUT_SUB
+          value: lol_advanced_stats_ingest
+        - name: PUBSUB_OUTPUT_SUB
+          value: lol_goals_update
+
+        image: gcr.io/vs-containers/lol-stats-ingester-advanced:change_me
+        imagePullPolicy: Always
+        name: lol-stats-ingester-advanced-v1
+        resources:
+          requests:
+            cpu: 40m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-prod
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-prod
+        secret:
+          secretName: creds-prod

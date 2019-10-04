@@ -1,0 +1,5 @@
+{
+  "build": {
+    "Dockerfile": "gcr.io/vs-containers/vs-taskserver"
+  }
+}

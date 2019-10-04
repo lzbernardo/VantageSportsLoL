@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lol-bq-deduper-v1
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: lol-bq-deduper
+        env: staging
+        api: v1
+    spec:
+      containers:
+      - env:
+        - name: BIG_QUERY_DATASET
+          value: lol
+        - name: BIG_QUERY_TABLE_BASIC
+          value: lolstats_basic
+        - name: BIG_QUERY_TABLE_ADVANCED
+          value: lolstats_advanced
+        - name: BIG_QUERY_SCHEMA_FILE_BASIC
+          value: ./cmd/bq_deduper/basic_stats_schema.json
+        - name: BIG_QUERY_SCHEMA_FILE_ADVANCED
+          value: ./cmd/bq_deduper/advanced_stats_schema.json
+        - name: GOOG_CREDS_JSON
+          value: /etc/creds/gcp-staging1
+        - name: GOOG_PROJECT_ID
+          value: vs-staging1
+        - name: DAYS_TO_DEDUPE
+          value: "2"
+        - name: WAIT_TIME_MINUTES
+          value: "1440"
+        image: gcr.io/vs-containers/lol-bq-deduper:change_me
+        imagePullPolicy: Always
+        name: lol-bq-deduper-v1
+        resources:
+          requests:
+            cpu: 40m
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /etc/creds
+          name: creds-staging
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: creds-staging
+        secret:
+          secretName: creds-staging

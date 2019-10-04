@@ -1,0 +1,35 @@
+<powershell>
+$EC2SettingsFile="C:\Program Files\Amazon\Ec2ConfigService\Settings\Config.xml"
+$xml = [xml](get-content $EC2SettingsFile)
+$xmlElement = $xml.get_DocumentElement()
+$xmlElementToModify = $xmlElement.Plugins
+
+foreach ($element in $xmlElementToModify.Plugin)
+{
+    if ($element.name -eq "Ec2SetPassword")
+    {
+        $element.State="Enabled"
+    }
+    elseif ($element.name -eq "Ec2HandleUserData")
+    {
+        $element.State="Enabled"
+    }
+}
+$xml.Save($EC2SettingsFile)
+
+$url = "http://169.254.169.254/latest/meta-data/instance-id"
+$Page = Invoke-WebRequest -Uri $url
+
+$spotRequestLine = aws ec2 describe-instances --instance-ids=$Page | findstr "SpotInstanceRequestId"
+$spotRequestId = $spotRequestLine.Split(":")[1].Trim(" "",")
+aws ec2 create-tags --resources $spotRequestId --tags 'Key=purpose,Value=upgrade_ami'
+
+$url = "http://169.254.169.254/latest/meta-data/placement/availability-zone"
+$Availability = Invoke-WebRequest -Uri $url
+$Region = $Availability.Content.Substring(0, $Availability.Content.Length - 1)
+
+$postParams = @{instanceId=$Page.Content;region=$Region;waitMinutes='{{ .WaitMinutes }}';imageName='{{ .NewName }}';imageDescription='{{ .NewDescription}}'}
+$url = "{{ .UrlBase }}/upgradeAmiCallback"
+Invoke-WebRequest -Uri $url -Method POST -Body $postParams
+
+</powershell>

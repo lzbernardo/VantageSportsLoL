@@ -1,0 +1,12 @@
+# Backups
+*~
+
+# Things to never check-in
+ignore/*
+cmd/ocr_runner/docker-stage/*
+
+# Pkg files
+Godeps/_workspace/pkg
+
+# Binaries
+task_receiver/task_receiver

@@ -1,0 +1,210 @@
+syntax = "proto3";
+
+package users;
+
+// AuthCheck contains only the CheckToken method. This endpoint is the most
+// commonly used Auth method, and separating it into its own service makes
+// creating middleware for it (e.g. caching/internal auth) easier.
+service AuthCheck {
+  // Verifies the validity of an auth token.
+  rpc CheckToken (TokenRequest) returns (ClaimsResponse) {}
+}
+
+message TokenRequest {
+  string token = 1;
+}
+
+message Claims {
+  string sub = 1;
+  string iss = 2;
+  double iat = 3;
+  double exp = 4;
+
+  string name = 5;
+  string email = 6;
+  map<string, bool> privileges = 7;
+
+  // v1 auth holdover. remove once all systems are on usersv2 auth
+  Context context = 8;
+}
+
+// TODO(Cameron): remove after everybody is on users v2
+message Context {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    map<string, bool> privileges = 4;
+}
+
+message ClaimsResponse {
+  Claims claims = 1;
+}
+
+// AuthGen contains the other two (less commonly used) auth methods for
+// generating user and temporary tokens. These _COULD_ live in UsersService,
+// but separating them makes this (rather large service) feel a little cleaner
+// and more compartmentalized.
+service AuthGen {
+  // Generates an auth token that can be used to authenticate to other APIs.
+  rpc GenerateToken (LoginRequest) returns (TokenResponse) {}
+
+  // Sends a link to either confirm an email address or reset a password.
+  rpc SendToken(SendTokenRequest) returns (SimpleResponse) {}
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+
+  // Token can be used instead of a password to generate an "impersonator" auth
+  // token for the given email.
+  string token = 3;
+}
+
+message TokenResponse {
+  string token = 1;
+}
+
+message SendTokenRequest {
+  string email = 1;
+  string flow = 2;
+
+  // landing_url is the (trusted) page that the user will be directed to in
+  // order to either confirm their email or update their password. This page
+  // receives a token as a parameter, so we need to make sure it's not a page
+  // outside of our control.
+  string landing_url = 3;
+
+  // redirect_url is the page that the user should be redirected to after the
+  // confirmation or password update has taken place. It does not have to be
+  // trusted.
+  string redirect_url = 4;
+}
+
+// Users manages users, group definitions, and the association of privileges to
+// users and groups.
+service Users {
+  // Createuser creates a new user object.
+  rpc CreateUser(UserRequest) returns (UsersResponse) {}
+
+  // UpdateUser updates an existing user object. Making a user's active field
+  // false effectively deletes it.
+  rpc UpdateUser(UserRequest) returns (UsersResponse) {}
+
+  // ListUser queries existing user objects.
+  rpc ListUsers(ListUsersRequest) returns (UsersResponse) {}
+
+  // CreateGroup creates a new group object.
+  rpc CreateGroup(GroupRequest) returns (GroupsResponse) {}
+
+  // UpdateGroup updates an exisitng group object.
+  rpc UpdateGroup(GroupRequest) returns (GroupsResponse) {}
+
+  // ListGroups queries existing group objects.
+  rpc ListGroups(ListGroupsRequest) returns (GroupsResponse) {}
+
+  // SavePrivilege creates/updates privilege objects.
+  rpc SavePrivilege(PrivilegeRequest) returns (PrivilegesResponse) {}
+
+  // ListPrivileges queries existing privilege objects.
+  rpc ListPrivileges(ListPrivilegesRequest) returns (PrivilegesResponse) {}
+
+  // CreateAssociation links two objects. The link can be:
+  //  * User <-> Privilege (granting/denying a user a specific privilege)
+  //  * User <-> Group (making user part of a group)
+  //  * Group <-> Privilege (granting/denying a group a specific privilege)
+  rpc CreateAssociation(AssociateRequest) returns (SimpleResponse) {}
+
+  // RemoveAssociation unlinks two linked objects. E.g. removes a user from
+  // a group, removes privileges from a group, etc.
+  rpc RemoveAssociation(AssociateRequest) returns (SimpleResponse) {}
+}
+
+message User {
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  string name = 4;
+  bool active = 5;
+  bool email_confirmed = 6;
+}
+
+message UserRequest {
+  User user = 1;
+}
+
+message UsersResponse {
+  repeated User users = 1;
+}
+
+message SimpleResponse {}
+
+message ListUsersRequest {
+  repeated string ids = 1;
+  string email = 2;
+  string group_id = 3;
+  string privilege_id = 4;
+  int64 limit = 5;
+  int64 offset = 6;
+}
+
+message Group {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  bool public = 4;
+}
+
+message GroupRequest {
+  Group group = 1;
+
+  // delete is only relevant for update RPCs, in which case it signals that the
+  // group should be removed.
+  bool delete = 2;
+}
+
+message GroupsResponse {
+  repeated Group groups = 1;
+}
+
+message ListGroupsRequest {
+  repeated string ids = 1;
+  string user_id = 2;
+  string privilege_id = 3;
+  bool public = 4;
+  int64 limit = 5;
+  int64 offset = 6;
+}
+
+message Privilege {
+  string id = 1;
+  string description = 2;
+
+  // this is actually stored as part of the associate request, but is merged
+  // into the privileges objects when returned from ListPrivileges by userId
+  // or groupId.
+  bool denial = 3;
+}
+
+message PrivilegeRequest {
+  Privilege privilege = 1;
+}
+
+message PrivilegesResponse {
+  repeated Privilege privileges = 1;
+}
+
+message ListPrivilegesRequest  {
+  repeated string ids = 1;
+  string user_id = 2;
+  string group_id = 3;
+  int64 limit = 4;
+  int64 offset = 5;
+}
+
+message AssociateRequest {
+  string user_id = 1;
+  string group_id = 2;
+  string privilege_id = 3;
+  bool denial = 4;
+}
